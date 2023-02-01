@@ -1,0 +1,98 @@
+
+
+.login{
+height:100vh;
+background:  url('./cover01.png') center center/cover;
+display:flex;
+align-items:center;
+justify-content:center;
+
+
+    .card{
+        width:50%;
+        display:flex;
+        flex-direction: row;
+        background-color: white;
+        border-radius: 10px;
+        min-height: 600px;
+        align-items:left;
+        overflow:hidden;
+
+        
+        .left{
+            background: linear-gradient(to bottom, rgba(23, 99, 100, 0.52), rgba(17, 17, 17, 0.73)),  url('./img6.jpg') center center/cover;
+            
+            flex:1;
+            padding:50px;
+            display:flex;
+            flex-direction:column;
+            gap:30px;
+            color:white;
+            align-content:left;
+            h1{
+                font-size:100px;
+                line-height:100px;
+                
+            }
+            p{}
+            span{
+                font-size: 16px;
+                line-height:25px;
+            }
+            button{
+                background-color: white;
+                width:50%;
+                padding:10px;
+                border:none;
+                color:#30595b;
+                font-weight:bold;
+                cursor:pointer
+
+            }
+            button:hover{
+                background-color: rgb(158, 131, 43);
+            }
+            
+        }
+        .right{
+            
+            flex:1;
+            padding:50px;
+            display:flex;
+            flex-direction:column;
+            gap:30px;
+            color:rgb(76, 94, 96);
+            justify-content: center;
+            
+            align-items:left;
+            h1{
+                font-size:40px;
+                line-height:100px;
+            }
+            form{
+                display: flex;
+                flex-direction:column;
+                gap:30px;
+                min-width:450px;
+                input{
+                    border:none;
+                    border-bottom:1px solid lightgray;
+                    padding:20px 10px;
+                    
+                }
+                button{
+                background-color: rgb(77, 110, 107);
+                width:50%;
+                padding:10px;
+                border:none;
+                color:#ffffff;
+                font-weight:bold;
+                cursor:pointer
+                }
+                button:hover{
+                    background-color: rgb(158, 131, 43);
+                }
+            }
+        }
+    }
+}

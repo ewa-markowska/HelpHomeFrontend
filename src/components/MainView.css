@@ -1,0 +1,83 @@
+.stefan{
+    
+    object-fit:cover;
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:-1;
+
+}
+
+.mainView-container{
+    
+    background: url('./Stefan.png') center center/cover
+    no-repeat;
+    height:100vh;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    object-fit:contain;
+    min-height:300px;
+    min-width:1500px;
+
+}
+
+.welcome-message>h1{
+    font-size: 60px;
+    color:#fff;
+    width:900px;
+    display:flex;
+    font-family:'Montserrat';
+    font-weight: 800;
+    line-height:70px;
+    flex-direction:column;
+    align-items: center;
+    object-fit:contain;
+    margin-left:900px;
+    text-align:left;
+    margin-top:300px;
+    
+
+}
+
+.btn--large{
+    margin-top: 50px;
+    padding: 40px;
+    font-size: 25px;
+    border-radius: 60px;
+    background-color: #30595b;
+    color:#fff;
+    margin-left:900px;
+    
+
+    
+
+}
+.btn--large :hover,
+.btn--medium:hover {
+  transition: all 0.3s ease-out;
+  background: #e4c05f;
+  color: #242424;
+  transition: 250ms;
+}
+
+.dodaj-oferte{
+    margin-top: 50px;
+    padding: 40px;
+    font-size: 25px;
+    border-radius: 60px;
+    background-color: #30595b;
+    color:#fff;
+    margin-left:900px;
+}
+
+.big-button{
+    margin-top: 50px;
+    padding: 40px;
+    font-size: 25px;
+    border-radius: 60px;
+    background-color: #30595b;
+    color:#fff;
+    margin-left:900px;
+  }

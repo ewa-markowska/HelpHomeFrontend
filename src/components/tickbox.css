@@ -1,0 +1,56 @@
+.App {
+  font-family:  "Open Sans";
+  color:rgb(85, 83, 83);
+  font-size:16px;
+    justify-content: left;
+    align-items: left;
+   
+  }
+  
+  h3 {
+    text-align: center;
+  }
+  
+
+  
+
+  
+  .toppings-list
+{
+    width: 93%;
+   
+    list-style: none;
+    padding: 20px;
+    
+    justify-content: center;
+    align-items: center;
+    border-bottom:1px solid lightgray;
+    
+  
+  
+ }
+  
+  .toppings-list li {
+    margin-bottom: 0.5rem;
+    
+  }
+  
+  .toppings-list-item {
+    
+    display: flex;
+    justify-content: space-between;
+    padding:5px;
+  }
+  .price{
+    border:none;
+    align-items:right ;
+    margin-left:30px;
+                    
+  }
+  
+  
+
+  
+  
+  
+ 
