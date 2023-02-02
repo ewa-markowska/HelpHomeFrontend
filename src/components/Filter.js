@@ -97,7 +97,7 @@ function Filter(props) {
       <div className="filter-bar">
       
       <label>
-          Od:
+         Cena Od:
           <input type="number" name="from" onChange={e => handleSortChange(e.target.name, e.target.value)} value={sort.from} />
         </label>
         <label>

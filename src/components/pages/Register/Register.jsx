@@ -31,13 +31,29 @@ function Register() {
             <div className="right">
                 <h1>Rejestracja</h1>
                 <form>
-                    <input type="text" placeholder="Użytkownik"
-                    value ={name} onChange={(e)=>setName(e.target.value)}/>
-                    <input type="email" placeholder="Email"
-                    value ={email} onChange={(e)=>setEmail(e.target.value)}/>
-                    <input type="password" placeholder="Hasło"
-                    value ={password}onChange={(e)=>setPassword(e.target.value)}/>
-                    <input type="password" placeholder="Powtórz hasło"/>
+                    <input 
+                    type="text" 
+                    placeholder="Użytkownik"
+                    value ={name}
+                     onChange={(e)=>setName(e.target.value)}/>
+
+                    <input
+                     type="email" 
+                     placeholder="Email"
+                    value ={email}
+                     onChange={(e)=>setEmail(e.target.value)}/>
+
+                    <input 
+                    
+                  type="password" 
+                  placeholder="Hasło"
+                    value ={password}
+                    onChange={(e)=>setPassword(e.target.value)}/>
+
+                    <input 
+                    type="password" 
+                    placeholder="Powtórz hasło"/>
+                    
                     <Link to="/dodajoferte"><button onClick={SignUp} >Następny krok</button></Link>
 
                 </form>

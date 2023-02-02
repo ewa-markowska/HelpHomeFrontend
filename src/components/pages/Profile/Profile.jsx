@@ -5,16 +5,16 @@ import React, { useState, useEffect } from 'react';
 
 
 function Profile() {
-  const { SeekerId } = useParams();
+  const { Id } = useParams();
   const [user, setUser] = useState({});
  
   // https://localhost:7026/api/seekers/${SeekerId}
 
   useEffect(() => {
-    fetch(`https://localhost:7026/api/seekers/${SeekerId}`)
+    fetch(`https://localhost:7052/api/users/${Id}`)
       .then(response => response.json())
       .then(data => setUser(data));
-  }, [SeekerId]);
+  }, [Id]);
 
   return (
       

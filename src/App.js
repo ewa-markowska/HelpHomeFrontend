@@ -8,10 +8,12 @@ import './App.css';
 import Home from './components/pages/Home';
 import Register from './components/pages/Register/Register'
 import Login from './components/pages/Login/Login';
-import AddOffer from './components/pages/AddOffer/AddOffer'
 import Profile from './components/pages/Profile/Profile';
 import Form from "./components/Form/Form";
 import Filter from "./components/Filter";
+import Rejestracja2 from './components/pages/Register/Rejestracja2';
+
+
 
 
 
@@ -45,6 +47,11 @@ function App() {
     <Route path="/Profile/:SeekerId" element={<Profile />}></Route>
     <Route path="/Form" element={<Form />}></Route>
     <Route path="/Filter" handler={<Filter />}></Route>
+    <Route path="/rej" element={<Rejestracja2 />}></Route>
+   
+
+     
+
    
     </Routes>
 
