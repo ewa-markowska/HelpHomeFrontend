@@ -17,34 +17,62 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [phoneNumberValid , setPhoneNumberValid] = useState(true);
+
 
   const handleChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    const { name, email, password, confirmPassword, phoneNumber, roleId } = formData;
 
-    // Validate form data
+    const validatePhoneNumber = phoneNumber => {
+      const phoneNumberRegex = /^\d{10}$/;
+      return phoneNumberRegex.test(phoneNumber);
+    };
 
-    try {
-      const response = await axios.post('https://localhost:7052/api/account/register', {
-        name,
-        email,
-        password,
-        confirmPassword,
-        phoneNumber,
-        roleId
-      });
-      setLoading(false);
-      setSuccess(true);
-      // Do something with the success response
-    } catch (err) {
-      setLoading(false);
-      setError(err.response.data.message);
-    }
+    const handlePhoneNumberChange = e => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+      setPhoneNumberValid(validatePhoneNumber(e.target.value));
+    };
+
+    const handleSubmit = async e => {
+      e.preventDefault();
+      setLoading(true);
+      setError('');
+      const { name, email, password, confirmPassword, phoneNumber, roleId } = formData;
+    
+    
+
+      if (!name || !email || !password || !confirmPassword || !phoneNumber || !roleId) {
+        setLoading(false);
+        setError('All fields are required!');
+        return;
+      }
+    
+      if (password !== confirmPassword) {
+        setLoading(false);
+        setError('Passwords do not match!');
+        return;
+      }
+
+     
+      
+      
+      try {
+        const response = await axios.post('https://localhost:7052/api/account/register', {
+          name,
+          email,
+          password,
+          confirmPassword,
+          phoneNumber,
+          roleId
+        });
+        setLoading(false);
+        setSuccess(true);
+        // Do something with the success response
+      } catch (err) {
+        setLoading(false);
+        setError(err.response.data.message);
+      }
   };
 
   return (
@@ -100,12 +128,17 @@ const Register = () => {
                   />
 
                   <input
-                  type="tel"
-                  placeholder="Numer telefonu"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
+                    type="tel"
+                    placeholder="Numer telefonu"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handlePhoneNumberChange}
+                    className={phoneNumberValid ? '' : 'invalid'}
+                    
                         />
+                          {!phoneNumberValid && (
+                          <div className="error">Invalid phone number</div>
+                          )}
 
                   <div>
                    <select name="roleId" value={formData.roleId} onChange={handleChange}>
