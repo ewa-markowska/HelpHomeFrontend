@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 
-function Profile() {
+function Profile(props) {
   const { Id } = useParams();
   const [user, setUser] = useState({});
  
@@ -33,7 +33,8 @@ function Profile() {
                 </div>
             <div className='centerSide'>{user.name}</div>
             <div class="vl"></div>
-            <div className='rightSide'>Katowice, śląskie</div>
+            <div className='rightSide'>
+    </div>
             
             
             

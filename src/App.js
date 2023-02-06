@@ -11,7 +11,7 @@ import Login from './components/pages/Login/Login';
 import Profile from './components/pages/Profile/Profile';
 import Form from "./components/Form/Form";
 import Filter from "./components/Filter";
-import Rejestracja2 from './components/pages/Register/Rejestracja2';
+
 
 
 
@@ -44,10 +44,10 @@ function App() {
     <Route path="/rejestracja" element={<Register />}></Route>
     <Route path="/logowanie" element={<Login />}></Route>
     <Route path="/dodajoferte" element={<Form />}></Route>
-    <Route path="/Profile/:SeekerId" element={<Profile />}></Route>
+    <Route path="/Profile/:Id" element={<Profile />}></Route>
     <Route path="/Form" element={<Form />}></Route>
     <Route path="/Filter" handler={<Filter />}></Route>
-    <Route path="/rej" element={<Rejestracja2 />}></Route>
+    
    
 
      
