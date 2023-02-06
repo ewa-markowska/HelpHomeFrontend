@@ -1,20 +1,58 @@
 import "./register.scss";
 import { Link} from "react-router-dom";
-import {useState} from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 
 
+const Register = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    phoneNumber: '',
+    roleId: 2
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-function Register() {
-  const [name,setName] = useState("")
-  const [password,setPassword] = useState("")
-  const [email,setEmail] = useState("")
+  const handleChange = e =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  function SignUp(){
-    let item ={name,password,email}
-  }
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    const { name, email, password, confirmPassword, phoneNumber, roleId } = formData;
+
+    // Validate form data
+
+    try {
+      const response = await axios.post('https://localhost:7052/api/account/register', {
+        name,
+        email,
+        password,
+        confirmPassword,
+        phoneNumber,
+        roleId
+      });
+      setLoading(false);
+      setSuccess(true);
+      // Do something with the success response
+    } catch (err) {
+      setLoading(false);
+      setError(err.response.data.message);
+    }
+  };
 
   return (
+    <>
+    {loading && <div>Loading...</div>}
+    {success && <div>Registration Successful!</div>}
+    {error && <div>{error}</div>}
+    {!loading && !success && (
     <div className="register">
         <div className="card">
             <div className="left">
@@ -30,38 +68,67 @@ function Register() {
             
             <div className="right">
                 <h1>Rejestracja</h1>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <input 
-                    type="text" 
-                    placeholder="Użytkownik"
-                    value ={name}
-                     onChange={(e)=>setName(e.target.value)}/>
+                      type="text" 
+                      placeholder="Użytkownik"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange} />
 
                     <input
                      type="email" 
                      placeholder="Email"
-                    value ={email}
-                     onChange={(e)=>setEmail(e.target.value)}/>
+                     name="email"
+                     value={formData.email}
+                     onChange={handleChange}/>
 
                     <input 
                     
                   type="password" 
                   placeholder="Hasło"
-                    value ={password}
-                    onChange={(e)=>setPassword(e.target.value)}/>
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}/>
 
-                    <input 
-                    type="password" 
-                    placeholder="Powtórz hasło"/>
+                    <input
+                  type="password"
+                  placeholder="Powtórz hasło"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  />
+
+                  <input
+                  type="tel"
+                  placeholder="Numer telefonu"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                        />
+
+                  <div>
+                   <select name="roleId" value={formData.roleId} onChange={handleChange}>
+                   
+
+                   <option value={1}>Szukam pracy</option>
+                    <option value={2}>Oferuje pracę</option>
+                    </select>
+                  </div>
+                    <button type="submit">Register</button>
+
                     
-                    <Link to="/dodajoferte"><button onClick={SignUp} >Następny krok</button></Link>
 
                 </form>
             </div>
         </div>
-      
     </div>
-  )
-}
+    
+    )}
+    </> 
+  );
+};
+
+
 
 export default Register
