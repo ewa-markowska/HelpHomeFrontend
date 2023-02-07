@@ -38,9 +38,7 @@
         width:600px;
    
 
-        .info-container{
-            
-        }
+       
         
 
         .leftSide{
@@ -89,5 +87,14 @@
 }
 
 
-
+.info-container{
+    height:50px;
+    box-shadow: 8px 8px 24px 0px rgb(188, 189, 192);
+    border-radius: 20px;
+    background-color: white;
+    padding: 50px;
+    min-width: 1000px;
+    min-height: 200px;
+    margin-top:50px;
+}
     
