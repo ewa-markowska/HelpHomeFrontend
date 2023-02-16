@@ -47,7 +47,9 @@
   }
   
   .nav-item {
+    
     height: 80px;
+    color:white;
   }
   
   .nav-links {
@@ -87,15 +89,19 @@
     }
   
     .nav-menu {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 90vh;
-      position: absolute;
-      top: 80px;
-      left: -100%;
-      opacity: 1;
-      transition: all 0.5s ease;
+      position: fixed;
+  top: 90px; /* Set this value to the height of the navbar */
+  right: 0;
+  width: 100%;
+  height: calc(100vh - 90px); /* Subtract the height of the navbar from the viewport height */
+  background: #242222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;;
     }
   
     .nav-menu.active {
@@ -104,6 +110,8 @@
       opacity: 1;
       transition: all 0.5s ease;
       z-index: 1;
+      transform: translateX(0);
+
     }
   
     .nav-links {
@@ -161,4 +169,67 @@
       color: #242424;
       transition: 250ms;
     }
+
+    
+  
+  }
+  .navbar.userEemail{
+    color:white;
+  }
+
+  .dropdown-menu {
+    margin-top:330px;
+    display:flex;
+    background-color: black;
+    font-size: 14px;
+    list-style: none;
+    padding: 10px 0;
+    
+  }
+  
+  .dropdown-menu li {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    text-align: left;
+  }
+
+  
+  
+  .dropdown-menu li a {
+    display: block;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 8px 16px;
+  }
+  
+  .dropdown-menu hr {
+    border-top: 1px solid #ccc;
+    margin: 4px 0;
+  }
+
+  .dropdown-menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+  }
+
+  .user-icon{
+    padding:30px;
+  }
+
+  .dropdown-menu li:hover {
+    background-color: #d6ad0a;
+  }
+  
+  .dropdown-divider {
+    margin: 0.5rem 0;
+    border-top: 1px solid black;
+  }
+  .navbar-user{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:30px;
   }

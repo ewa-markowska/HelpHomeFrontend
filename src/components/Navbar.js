@@ -1,82 +1,107 @@
-import React, {useEffect, useState} from 'react'
-import {Link} from 'react-router-dom'
-import { Button } from './Button';
-import './Navbar.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "./Button";
+import "./Navbar.css";
+import { FaBars, FaUser } from "react-icons/fa";
 
+function Navbar({ userId, UserEmail }) {
+  const [click, setClick] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-function Navbar() {
-  const[click,setClick] = useState(false);
-  const[button,setButton] =useState(true)
+  const handleMobileMenuClick = () => setClick(!click);
+  const handleUserIconClick = () => setDropdownOpen(!dropdownOpen);
 
-
-  const handleClick = () => setClick(!click);
-  const closeMobileMenu=() => setClick(false);
-
-  const showButton = () => {
-    if(window.innerWidth <= 960){
-      setButton(false);
-    }else{
-      setButton(true);
-    }
+  const closeMobileMenu = () => {
+    setClick(false);
+    setDropdownOpen(false);
   };
 
-  useEffect(()=>{
-    showButton();
-  },[]);
+  const handleLogout = () => {
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userId");
+    window.location.reload();
+  };
 
-
-  window.addEventListener('resize',showButton);
+  const dropdownItems = [
+    {
+      title: "Profile",
+      link: `/profile/${userId}`
+    },
+    {
+      title: "Transactions",
+      link: "/my-transactions",
+    },
+    {
+      title: "Offers",
+      link: "/my-offers",
+    },
+    {
+      title: "Conversations",
+      link: "/my-conversations",
+    },
+  ];
 
   return (
     <>
-     <nav className="navbar">
-      <div className="navbar-container">
-        <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-           
-
-        </Link>
-        <div className='menu-icon' onClick={handleClick}>
-        <i className={click ? 'fas fa-times':'fas fa-bars' }></i>
-        
-       
-        </div>
-        <ul className = {click ? 'nav-menu active': 'nav-menu'}>
-          <li className ='nav-item'>
-            <Link to='/' className='nav-links'onClick={closeMobileMenu}>
-            HOME
-            </Link>
-          </li>
-          <li className ='nav-item'>
-            <Link to='/rejestracja' className='nav-links'onClick={closeMobileMenu}>
-            REJESTRACJA
-            </Link>
-          </li>
-          
-          <li className ='nav-item'>
-            <Link to='/dodajoferte' className='nav-links'onClick={closeMobileMenu}>
-            DODAJ OFERTĘ
-            </Link>
-          </li>
-
-          <li>
-              <Link
-                to='/logowanie'
-                className='nav-links-mobile btn--large'
-               
-                onClick={closeMobileMenu}
-              >
+      <nav className="navbar">
+        <div className="navbar-container">
+          <Link to="/" className="navbar-logo" onClick={closeMobileMenu}></Link>
+          <div className="menu-icon" onClick={handleMobileMenuClick}>
+            <FaBars />
+          </div>
+          <ul className={click ? "nav-menu active" : "nav-menu"}>
+            <li className="nav-item">
+              <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                HOME
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/rejestracja" className="nav-links" onClick={closeMobileMenu}>
+                REJESTRACJA
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/dodajoferte" className="nav-links" onClick={closeMobileMenu}>
+                DODAJ OFERTĘ
+              </Link>
+            </li>
+            <li>
+              <Link to="/logowanie" className="nav-links-mobile btn--large" onClick={closeMobileMenu}>
                 Logowanie
               </Link>
             </li>
+          </ul>
 
-        </ul>
+         
 
-        {button && <Button buttonStyle = 'btn--outline' buttonLink={'logowanie'}>Logowanie</Button>}
-      </div>
+          {click && <div className="navbar-overlay" onClick={closeMobileMenu}></div>}
 
-     </nav>
+          <div className="navbar-button">
+            <Button buttonStyle="btn--outline" buttonLink="logowanie" onClick={closeMobileMenu}>
+              Logowanie
+            </Button>
+            
+          </div>
+          <div className="navbar-user" onClick={handleUserIconClick}>
+            <FaUser color="white" size={20} />
+            {dropdownOpen && (
+              <div className="dropdown-menu">
+                <ul>
+                  {dropdownItems.map((item, index) => (
+                    <li key={index}>
+                      <Link to={item.link} onClick={closeMobileMenu}>
+                        {item.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </nav>
     </>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

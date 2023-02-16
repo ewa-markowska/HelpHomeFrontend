@@ -13,15 +13,7 @@ const LocationInfo = ({ formData, setFormData, page, setPage, x, setX })  => {
   >
       <div className="card">
         <div className="step-title">Szczegóły oferty</div>
-        {/* <input
-          type="text"
-          placeholder="Miejscowość"
-        />
-       
-        <input
-          type="text"
-          placeholder="Telefon"
-        /> */}
+    
         <div className="space">Zaznacz właściwe:
         <div>
           <Tickbox1></Tickbox1>

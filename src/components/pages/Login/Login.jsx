@@ -1,23 +1,39 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
 import "./login.scss";
 
-function Login() {
+function Login({setUserEmail }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+    if (id) {
+      setUserId(id);
+    }
+  }, []);
 
   const handleLogin = (event) => {
     event.preventDefault();
-    axios
-      .post("https://localhost:7052/api/account/login", { email, password })
+    axios.post("https://localhost:7052/api/account/login", { email, password })
       .then((response) => {
-        console.log("Login ok");
+        if (response.data && response.data.id) {
+          setUserEmail(response.data.email);
+          setUserId(response.data.id);
+          localStorage.setItem("userEmail", response.data.email);
+          localStorage.setItem("userId", response.data.id);
+        } else {
+          alert("Login failed. Please try again.");
+        }
       })
       .catch((error) => {
-        console.log(error); 
+        alert("Login failed. Please try again.");
+        console.error(error);
       });
   };
+
 
   return (
     <div className="login">

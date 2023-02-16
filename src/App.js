@@ -1,67 +1,36 @@
-import React,{useEffect,useState} from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import axios from "axios";
 
-import Navbar from './components/Navbar';
-import {createBrowserRouter,RouterProvider} from 'react-router-dom';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import './App.css';
-import Home from './components/pages/Home';
-import Register from './components/pages/Register/Register'
-import Login from './components/pages/Login/Login';
-import Profile from './components/pages/Profile/Profile';
+import Navbar from "./components/Navbar";
+import Home from "./components/pages/Home";
+import Register from "./components/pages/Register/Register";
+import Login from "./components/pages/Login/Login";
+import Profile from "./components/pages/Profile/Profile";
 import Form from "./components/Form/Form";
 import Filter from "./components/Filter";
 
-
-
-
-
-
-
-
-
-
 function App() {
-
-  const router=createBrowserRouter([
-    {
-    path : "/logowanie",
-    element:<Login/>,
-    },
-    {
-      path : "/rejestracja",
-      element:<Register/>,
-      },
-  ])
+  const [userEmail, setUserEmail] = useState("");
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
 
   return (
     <>
-    <Router>
-    <Navbar />
-    <Routes>
-
-    <Route path="/" element={<Home />}></Route>
-    <Route path="/rejestracja" element={<Register />}></Route>
-    <Route path="/logowanie" element={<Login />}></Route>
-    <Route path="/dodajoferte" element={<Form />}></Route>
-    <Route path="/Profile/:Id" element={<Profile />}></Route>
-    <Route path="/Form" element={<Form />}></Route>
-    <Route path="/Filter" handler={<Filter />}></Route>
-    
-   
-
-     
-
-   
-    </Routes>
-
-    </Router>
-    
+      <Router>
+        <Navbar userEmail={userEmail} userId={userId} setUserEmail={setUserEmail} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/rejestracja" element={<Register />} />
+          <Route path="/logowanie" element={<Login setUserEmail={setUserEmail} setUserId={setUserId} />} />
+          <Route path="/dodajoferte" element={<Form />} />
+          <Route path="/Profile/:Id" element={<Profile userId={userId} />} />
+          <Route path="/Form" element={<Form />} />
+          <Route path="/Filter" element={<Filter />} />
+        </Routes>
+      </Router>
     </>
-     
-     
-   
   );
 }
 
 export default App;
+

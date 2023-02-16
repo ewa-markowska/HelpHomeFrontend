@@ -3,26 +3,25 @@ import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 
-function Profile(props) {
+function Profile({ userId }) {
   const { Id } = useParams();
   const [user, setUser] = useState({});
   const [offerDtos, setOfferDtos] = useState([]);
   // https://localhost:7026/api/seekers/${SeekerId}
 
   useEffect(() => {
-    fetch(`https://localhost:7052/api/users/${Id}`)
+    fetch(`https://localhost:7052/api/users/${userId}`)
       .then(response => response.json())
       .then(data => setUser(data));
-  }, [Id]);
-
-
+  }, [userId]);
+  
   useEffect(() => {
-    fetch(`https://localhost:7052/api/users/${Id}`)
+    fetch(`https://localhost:7052/api/users/${userId}/offers`)
       .then(response => response.json())
       .then(data => {
-        setOfferDtos(data.offerDtos);
+        setOfferDtos(data);
       });
-  }, [Id]);
+  }, [userId]);
 
   return (
       
