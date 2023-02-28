@@ -3,7 +3,7 @@ import { useState, useEffect} from "react";
 import axios from "axios";
 import "./login.scss";
 
-function Login({setUserEmail }) {
+function Login({ setUserEmail }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userId, setUserId] = useState("");
@@ -14,26 +14,41 @@ function Login({setUserEmail }) {
       setUserId(id);
     }
   }, []);
-
+  axios.defaults.timeout = 5000
   const handleLogin = (event) => {
     event.preventDefault();
-    axios.post("https://localhost:7052/api/account/login", { email, password })
-      .then((response) => {
-        if (response.data && response.data.id) {
-          setUserEmail(response.data.email);
-          setUserId(response.data.id);
-          localStorage.setItem("userEmail", response.data.email);
-          localStorage.setItem("userId", response.data.id);
-        } else {
-          alert("Login failed. Please try again.");
-        }
-      })
-      .catch((error) => {
+    console.log(`Sending login request for email ${email}...`);
+    axios.post("https://localhost:7052/api/account/login", {
+      Email: email,
+      Password: password,
+      RememberLogin: true
+    }, { withCredentials: true,
+     })
+    .then((response) => {
+      console.log(`Received login response with status ${response.status}.`);
+      console.log(`Response data: ${JSON.stringify(response)}`);
+      const responseData = response.data;
+      const userEmail = responseData.email;
+      const userId = responseData.id;
+      if (response.status === 200 && response.data.email && response.data.id) {
+        console.log(`Setting user email to ${response.data.email}...`);
+        setUserEmail(response.data.email);
+        console.log(`Setting user ID to ${response.data.id}...`);
+        setUserId(response.data.id);
+        console.log(`Saving user email to local storage...`);
+        localStorage.setItem("userEmail", response.data.email);
+        console.log(`Saving user ID to local storage...`);
+        localStorage.setItem("userId", response.data.id);
+    } else {
+        console.log(`Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`);
         alert("Login failed. Please try again.");
-        console.error(error);
-      });
+    }
+    })
+    .catch((error) => {
+      console.error(`Error occurred while logging in: ${error}`);
+      alert("Login failed. Please try again.");
+    });
   };
-
 
   return (
     <div className="login">
