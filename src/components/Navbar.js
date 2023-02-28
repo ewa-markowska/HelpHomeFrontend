@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { Button } from "./Button";
 import "./Navbar.css";
 import { FaBars, FaUser } from "react-icons/fa";
+import axios from "axios";
 
-function Navbar({ userId, UserEmail }) {
+function Navbar({ userId, userEmail, onLogout }) {
   const [click, setClick] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+ 
+  
   const handleMobileMenuClick = () => setClick(!click);
   const handleUserIconClick = () => setDropdownOpen(!dropdownOpen);
 
@@ -15,31 +17,63 @@ function Navbar({ userId, UserEmail }) {
     setClick(false);
     setDropdownOpen(false);
   };
+  
 
-  const handleLogout = () => {
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userId");
-    window.location.reload();
-  };
+  
 
-  const dropdownItems = [
-    {
-      title: "Profile",
-      link: `/profile/${userId}`
-    },
-    {
-      title: "Transactions",
-      link: "/my-transactions",
-    },
-    {
-      title: "Offers",
-      link: "/my-offers",
-    },
-    {
-      title: "Conversations",
-      link: "/my-conversations",
-    },
-  ];
+  const dropdownItems = !!userEmail
+    ? [
+        {
+          title: "Profile",
+          link: `/Profile/${userId}`,
+        },
+        {
+          title: "Transactions",
+          link: "/my-transactions",
+        },
+        {
+          title: "Offers",
+          link: "/my-offers",
+        },
+        {
+          title: "Conversations",
+          link: "/my-conversations",
+        },
+        {
+          title: "Logout",
+          onClick: onLogout,
+          link: "/",
+          
+        },
+      ]
+    : [
+        {
+          title: "Profile",
+          link: `/Profile/${userId}`,
+          hidden: true,
+        },
+        {
+          title: "Transactions",
+          link: "/my-transactions",
+          hidden: true,
+        },
+        {
+          title: "Offers",
+          link: "/my-offers",
+          hidden: true,
+        },
+        {
+          title: "Conversations",
+          link: "/my-conversations",
+          hidden: true,
+        },
+        {
+          title: "Logout",
+          onClick: onLogout,
+          link: "/",
+          hidden: true,
+        },
+      ];
 
   return (
     <>
@@ -72,7 +106,11 @@ function Navbar({ userId, UserEmail }) {
             </li>
           </ul>
 
-         
+          {!!userEmail && (
+            <div className="navbar-logged-in">
+              Logged as: {userEmail}{" "}
+            </div>
+          )}
 
           {click && <div className="navbar-overlay" onClick={closeMobileMenu}></div>}
 
@@ -80,7 +118,6 @@ function Navbar({ userId, UserEmail }) {
             <Button buttonStyle="btn--outline" buttonLink="logowanie" onClick={closeMobileMenu}>
               Logowanie
             </Button>
-            
           </div>
           <div className="navbar-user" onClick={handleUserIconClick}>
             <FaUser color="white" size={20} />

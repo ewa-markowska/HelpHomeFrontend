@@ -233,3 +233,7 @@
     align-items:center;
     padding:30px;
   }
+  .navbar-logged-in{
+    color:white;
+    font-size:10px
+  }

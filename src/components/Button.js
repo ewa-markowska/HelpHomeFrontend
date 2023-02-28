@@ -23,7 +23,7 @@ const checkButtonstyle = STYLES.includes(buttonStyle)
 const chcekButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0]
 
 
-console.log(buttonLink)
+
 return(
     <Link to={`/${buttonLink}`}>
      <button

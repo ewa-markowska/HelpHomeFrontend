@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import axios from "axios";
 
@@ -9,15 +9,30 @@ import Login from "./components/pages/Login/Login";
 import Profile from "./components/pages/Profile/Profile";
 import Form from "./components/Form/Form";
 import Filter from "./components/Filter";
+import Logout from "./components/Logout";
 
 function App() {
   const [userEmail, setUserEmail] = useState("");
   const [userId, setUserId] = useState(localStorage.getItem("userId"));
+  const [loggedIn, setLoggedIn] = useState(!!userEmail);
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+    setUserEmail("");
+    setUserId("");
+  };
+
+  useEffect(() => {
+    setLoggedIn(!!userEmail);
+  }, [userEmail]);
 
   return (
     <>
       <Router>
-        <Navbar userEmail={userEmail} userId={userId} setUserEmail={setUserEmail} />
+      <Navbar userEmail={userEmail} userId={userId} setUserEmail={setUserEmail} onLogout={handleLogout}>
+  {loggedIn && <Logout onLogout={handleLogout} />}
+  
+</Navbar>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/rejestracja" element={<Register />} />
@@ -33,4 +48,3 @@ function App() {
 }
 
 export default App;
-

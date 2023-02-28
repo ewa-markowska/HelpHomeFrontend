@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect} from "react";
 import axios from "axios";
 import "./login.scss";
 
-function Login({ setUserEmail }) {
+function Login({ setUserEmail, onLogout }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userId, setUserId] = useState("");
@@ -14,7 +15,7 @@ function Login({ setUserEmail }) {
       setUserId(id);
     }
   }, []);
-  axios.defaults.timeout = 5000
+  
   const handleLogin = (event) => {
     event.preventDefault();
     console.log(`Sending login request for email ${email}...`);
@@ -22,14 +23,11 @@ function Login({ setUserEmail }) {
       Email: email,
       Password: password,
       RememberLogin: true
-    }, { withCredentials: true,
-     })
+    }, { withCredentials: true })
     .then((response) => {
       console.log(`Received login response with status ${response.status}.`);
-      console.log(`Response data: ${JSON.stringify(response)}`);
-      const responseData = response.data;
-      const userEmail = responseData.email;
-      const userId = responseData.id;
+      console.log(`Response data: ${JSON.stringify(response.data)}`);
+      
       if (response.status === 200 && response.data.email && response.data.id) {
         console.log(`Setting user email to ${response.data.email}...`);
         setUserEmail(response.data.email);
@@ -39,17 +37,20 @@ function Login({ setUserEmail }) {
         localStorage.setItem("userEmail", response.data.email);
         console.log(`Saving user ID to local storage...`);
         localStorage.setItem("userId", response.data.id);
-    } else {
+        alert(`Logged in successfully as ${response.data.email}`);
+       
+      } else {
         console.log(`Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`);
         alert("Login failed. Please try again.");
-    }
+      }
     })
     .catch((error) => {
       console.error(`Error occurred while logging in: ${error}`);
       alert("Login failed. Please try again.");
     });
-  };
+  }
 
+  
   return (
     <div className="login">
       <div className="card">

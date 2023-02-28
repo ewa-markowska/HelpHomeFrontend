@@ -29,7 +29,7 @@ function Profile({ userId }) {
             <a><i className="fa-solid fa-envelope"></i></a>
             <div className="vl"></div>
           </div>
-          <div className='centerSide'>{user.name}</div>
+          <div className='centerSide'>{user.name} user ID:{user.id}</div>
           <div className="vl"></div>
           <div className='rightSide'>
           </div>
