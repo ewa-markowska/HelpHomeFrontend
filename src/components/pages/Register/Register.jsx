@@ -25,7 +25,7 @@ const Register = () => {
 
 
     const validatePhoneNumber = phoneNumber => {
-      const phoneNumberRegex = /^\d{10}$/;
+      const phoneNumberRegex = /^\d{9}$/;
       return phoneNumberRegex.test(phoneNumber);
     };
 
@@ -137,7 +137,7 @@ const Register = () => {
                     
                         />
                           {!phoneNumberValid && (
-                          <div className="error">Invalid phone number</div>
+                          <div className="error">Wprowadź poprawny numer</div>
                           )}
 
                   <div>
@@ -148,7 +148,7 @@ const Register = () => {
                     <option value={2}>Oferuje pracę</option>
                     </select>
                   </div>
-                    <button type="submit">Register</button>
+                    <button type="submit">Zarejestruj się</button>
 
                     
 

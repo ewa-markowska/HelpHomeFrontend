@@ -1,54 +1,63 @@
 import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import "./login.scss";
+import Cookies from 'js-cookie';
+import { setUserEmail, setUserId } from '../../actions';
+import { useDispatch } from 'react-redux';
+import './login.scss'
 
-function Login({ setUserEmail, onLogout }) {
+
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userId, setUserId] = useState("");
-
+  const dispatch = useDispatch();
+  
   useEffect(() => {
-    const id = localStorage.getItem("userId");
+    const id = Cookies.get('userId');
     if (id) {
-      setUserId(id);
+      dispatch(setUserId(id));
     }
-  }, []);
+  }, [dispatch])
   
   const handleLogin = (event) => {
     event.preventDefault();
     console.log(`Sending login request for email ${email}...`);
-    axios.post("https://localhost:7052/api/account/login", {
-      Email: email,
-      Password: password,
-      RememberLogin: true
-    }, { withCredentials: true })
-    .then((response) => {
-      console.log(`Received login response with status ${response.status}.`);
-      console.log(`Response data: ${JSON.stringify(response.data)}`);
-      
-      if (response.status === 200 && response.data.email && response.data.id) {
-        console.log(`Setting user email to ${response.data.email}...`);
-        setUserEmail(response.data.email);
-        console.log(`Setting user ID to ${response.data.id}...`);
-        setUserId(response.data.id);
-        console.log(`Saving user email to local storage...`);
-        localStorage.setItem("userEmail", response.data.email);
-        console.log(`Saving user ID to local storage...`);
-        localStorage.setItem("userId", response.data.id);
-        alert(`Logged in successfully as ${response.data.email}`);
-       
-      } else {
-        console.log(`Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`);
+    axios
+      .post(
+        "https://localhost:7052/api/account/login",
+        {
+          Email: email,
+          Password: password,
+          RememberLogin: true,
+        },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        console.log(`Received login response with status ${response.status}.`);
+        console.log(`Response data: ${JSON.stringify(response.data)}`);
+
+        if (
+          response.status === 200 &&
+          response.data.email &&
+          response.data.id
+        ) {
+          dispatch(setUserEmail(response.data.email));
+          console.log(`Email użytkownika to : ${response.data.email}`);
+          dispatch(setUserId(response.data.id));
+          Cookies.set("userId", response.data.id, { expires: 7, path: "/" });
+          alert(`Logged in successfully as ${response.data.email}`);
+        } else {
+          console.log(
+            `Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`
+          );
+          alert("Login failed. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error(`Error occurred while logging in: ${error}`);
         alert("Login failed. Please try again.");
-      }
-    })
-    .catch((error) => {
-      console.error(`Error occurred while logging in: ${error}`);
-      alert("Login failed. Please try again.");
-    });
-  }
+      });
+  };
 
   
   return (

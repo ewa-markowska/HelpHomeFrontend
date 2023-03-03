@@ -2,20 +2,20 @@ import './profile.scss';
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
-function Profile({ userId }) {
+function Profile() {
   const { Id } = useParams();
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    fetch(`https://localhost:7052/api/users/${Id}`)
-      .then(response => response.json())
-      .then(data => {
-        setUser(data);
-        console.log(data); // add this line
-      })
-      .catch(error => console.log(error));
-  }, [Id]);
-  
+  fetch(`https://localhost:7052/api/users/${Id}`)
+    .then(response => response.json())
+    .then(data => {
+      setUser(data);
+      console.log(data); // add this line
+    })
+    .catch(error => console.log(error));
+}, [Id]);
+
 
   return (
     <div className='profile'>
@@ -29,7 +29,7 @@ function Profile({ userId }) {
             <a><i className="fa-solid fa-envelope"></i></a>
             <div className="vl"></div>
           </div>
-          <div className='centerSide'>{user.name} user ID:{user.id}</div>
+          <div className='centerSide'>{user.name}</div>
           <div className="vl"></div>
           <div className='rightSide'>
           </div>

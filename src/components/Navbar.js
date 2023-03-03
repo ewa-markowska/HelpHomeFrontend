@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./Button";
 import "./Navbar.css";
 import { FaBars, FaUser } from "react-icons/fa";
-import axios from "axios";
+import { useCookies } from 'react-cookie';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserEmail, setUserId, logoutUser } from './actions';
 
-function Navbar({ userId, userEmail, onLogout }) {
+function Navbar({ onLogout }) {
   const [click, setClick] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
- 
-  
+  const [cookies, removeCookie] = useCookies(["userEmail", "userId"]);
+
   const handleMobileMenuClick = () => setClick(!click);
   const handleUserIconClick = () => setDropdownOpen(!dropdownOpen);
 
@@ -18,58 +20,68 @@ function Navbar({ userId, userEmail, onLogout }) {
     setDropdownOpen(false);
   };
   
+  const userEmail = useSelector(state => state.auth?.userEmail);
+  const dispatch = useDispatch();
 
-  
+  const logout = () => {
+    removeCookie("userEmail");
+    removeCookie("userId");
+    if (typeof logoutUser === "function") {
+      dispatch(logoutUser());
+    }
+    onLogout();
+  };
 
-  const dropdownItems = !!userEmail
+  const userId = cookies.userId;
+
+  const dropdownItems = userEmail !== undefined && userEmail !== null
     ? [
         {
-          title: "Profile",
-          link: `/Profile/${userId}`,
+          title: "Mój profil",
+          link: `/userProfile/${userId}`,
         },
         {
-          title: "Transactions",
+          title: "Historia",
           link: "/my-transactions",
         },
         {
-          title: "Offers",
+          title: "Oferty",
           link: "/my-offers",
         },
         {
-          title: "Conversations",
+          title: "Wiadomości",
           link: "/my-conversations",
         },
         {
-          title: "Logout",
-          onClick: onLogout,
+          title: "Wyloguj",
+          onClick: logout,
           link: "/",
-          
         },
       ]
     : [
         {
-          title: "Profile",
-          link: `/Profile/${userId}`,
+          title: "Mój profil",
+          link: `/userProfile/${userId}`,
           hidden: true,
         },
         {
-          title: "Transactions",
+          title: "Transakcje",
           link: "/my-transactions",
           hidden: true,
         },
         {
-          title: "Offers",
+          title: "Oferty",
           link: "/my-offers",
           hidden: true,
         },
         {
-          title: "Conversations",
+          title: "Wiadomości",
           link: "/my-conversations",
           hidden: true,
         },
         {
-          title: "Logout",
-          onClick: onLogout,
+          title: "Wyloguj",
+          onClick: logout,
           link: "/",
           hidden: true,
         },
@@ -106,9 +118,9 @@ function Navbar({ userId, userEmail, onLogout }) {
             </li>
           </ul>
 
-          {!!userEmail && (
+          {userEmail !== undefined && userEmail !== null && (
             <div className="navbar-logged-in">
-              Logged as: {userEmail}{" "}
+              Logged in as: {userEmail}
             </div>
           )}
 
