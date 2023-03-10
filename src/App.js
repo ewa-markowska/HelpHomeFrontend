@@ -32,13 +32,8 @@ function App() {
     <Provider store={Store}>
       <>
         <Router>
-          <Navbar
-            userEmail={userEmail}
-            userId={userId}
-            setUserEmail={setUserEmail}
-            onLogout={handleLogout}
-          >
-            {loggedIn && <Logout onLogout={handleLogout} />}
+        <Navbar userEmail={userEmail} userId={userId} onLogout={handleLogout}>
+            {loggedIn && <Logout logout={handleLogout} />}
           </Navbar>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -49,6 +44,7 @@ function App() {
             />
             <Route path="/dodajoferte" element={<Form />} />
             <Route path="/Profile/:Id" element={<Profile userId={userId} />} />
+            <Route path="/UserProfile/:Id" element={<UserProfile userId={userId} />} />
             <Route path="/Form" element={<Form />} />
             <Route path="/Filter" element={<Filter />} />
             <Route path="/userProfile/:Id" element={<UserProfile userId={userId} />} />

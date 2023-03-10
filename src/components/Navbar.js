@@ -5,7 +5,9 @@ import "./Navbar.css";
 import { FaBars, FaUser } from "react-icons/fa";
 import { useCookies } from 'react-cookie';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUserEmail, setUserId, logoutUser } from './actions';
+import { setUserEmail, setUserId, setUserLoginStatus, logoutUser } from './actions';
+import Logout from "./Logout";
+
 
 function Navbar({ onLogout }) {
   const [click, setClick] = useState(false);
@@ -26,19 +28,36 @@ function Navbar({ onLogout }) {
   const logout = () => {
     removeCookie("userEmail");
     removeCookie("userId");
-    if (typeof logoutUser === "function") {
-      dispatch(logoutUser());
-    }
+    dispatch(logoutUser());
     onLogout();
   };
 
   const userId = cookies.userId;
+  const handleSetUserEmail = (email) => {
+    console.log(`Dispatching action SET_USER_EMAIL with payload ${email}`);
+    dispatch(setUserEmail(email));
+  };
 
-  const dropdownItems = userEmail !== undefined && userEmail !== null
-    ? [
+  const handleSetUserId = (userId) => {
+    console.log(`Dispatching action SET_USER_ID with payload ${userId}`);
+    dispatch(setUserId(userId));
+  };
+
+  const handleSetUserLoginStatus = (status) => {
+    console.log(`Dispatching action SET_USER_LOGIN_STATUS with payload ${status}`);
+    dispatch(setUserLoginStatus(status));
+  };
+
+  const handleLogout = () => {
+    handleSetUserLoginStatus(false);
+    logout();
+  };
+
+  const dropdownItems = 
+     [
         {
           title: "Mój profil",
-          link: `/userProfile/${userId}`,
+          link: `/UserProfile/${userId}`,
         },
         {
           title: "Historia",
@@ -52,40 +71,16 @@ function Navbar({ onLogout }) {
           title: "Wiadomości",
           link: "/my-conversations",
         },
-        {
-          title: "Wyloguj",
-          onClick: logout,
-          link: "/",
-        },
+        // {
+        //   title: "Wyloguj",
+        //   onClick:logout,
+        //   link: "/",
+        // },
       ]
-    : [
-        {
-          title: "Mój profil",
-          link: `/userProfile/${userId}`,
-          hidden: true,
-        },
-        {
-          title: "Transakcje",
-          link: "/my-transactions",
-          hidden: true,
-        },
-        {
-          title: "Oferty",
-          link: "/my-offers",
-          hidden: true,
-        },
-        {
-          title: "Wiadomości",
-          link: "/my-conversations",
-          hidden: true,
-        },
-        {
-          title: "Wyloguj",
-          onClick: logout,
-          link: "/",
-          hidden: true,
-        },
-      ];
+
+   
+
+  
 
   return (
     <>
@@ -143,6 +138,9 @@ function Navbar({ onLogout }) {
                       </Link>
                     </li>
                   ))}
+                   <li>
+              <Logout logout={handleLogout} onLogout={onLogout}/>
+            </li>
                 </ul>
               </div>
             )}

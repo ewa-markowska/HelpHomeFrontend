@@ -2,25 +2,21 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
-import { setUserEmail, setUserId } from '../../actions';
+import { setUserEmail, setUserId, setUserLoginStatus, logoutUser } from '../../actions';
 import { useDispatch } from 'react-redux';
 import './login.scss'
+
 
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  
-  useEffect(() => {
-    const id = Cookies.get('userId');
-    if (id) {
-      dispatch(setUserId(id));
-    }
-  }, [dispatch])
-  
+
   const handleLogin = (event) => {
     event.preventDefault();
+    
+    console.log(`Dodano do reduxa status logowania`);
     console.log(`Sending login request for email ${email}...`);
     axios
       .post(
@@ -46,6 +42,7 @@ function Login() {
           dispatch(setUserId(response.data.id));
           Cookies.set("userId", response.data.id, { expires: 7, path: "/" });
           alert(`Logged in successfully as ${response.data.email}`);
+          dispatch(setUserLoginStatus(true));
         } else {
           console.log(
             `Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`
@@ -98,3 +95,4 @@ function Login() {
 }
 
 export default Login;
+

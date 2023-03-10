@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const SignUp = ({ formData, setFormData, page, setPage, x, setX, isLoggedIn }) => {
+const SignUp = ({ formData, setFormData, page, setPage, x, setX, isLoggedIn, /* add setPage and setX to props */ }) => {
   return (
     <motion.div
       initial={{ x: x }}
@@ -14,9 +14,9 @@ const SignUp = ({ formData, setFormData, page, setPage, x, setX, isLoggedIn }) =
         <input type="text" className="form-group" placeholder="Email" />
         <input type="text" className="form-group" placeholder="Hasło" />
        
-          <button onClick={() => {setPage(page + 1); setX(2000);}}>
-            Nastepny krok
-          </button>
+        <button onClick={() => { setPage(page + 1); setX(2000); /* call setPage and setX */ }}>
+          Nastepny krok
+        </button>
         
       </div>
     </motion.div>
