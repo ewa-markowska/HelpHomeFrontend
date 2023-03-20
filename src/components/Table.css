@@ -47,35 +47,38 @@ background-size: contain;
     gap:20px;
 } */
 .left{
-    background: url('./user1.png') center center/cover;
+    background: url('./user1.png') left center/cover;
     min-width:150px;
     min-height:150px;
+    left: 50px;
+    top: 0;
+    
+    
+    
 }
 
 .message{
     justify-content:center;
+    width: 300px;
 }
 
 
 .rightSide{
     
-    padding:10px;
-    gap:5px;
-    display:flex;
-    flex-direction:column
-    
-   
-    
-    
+    padding: 10px;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 150px;
+  width:50px;
+  
 }
 .job-type{
     background-color: #5d6055;
     padding:10px;
     color:white;
+    width:100px;
 
 }
-.motion.a{
-    
-   
-}
+
 

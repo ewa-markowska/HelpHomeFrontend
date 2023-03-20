@@ -1,9 +1,7 @@
 import axios from "axios";
 import "./Table.css";
 import React, { useEffect, useState } from "react";
-import { Button } from "./Button";
 import { motion } from "framer-motion";
-import { lightGreen } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 
 const Table = () => {

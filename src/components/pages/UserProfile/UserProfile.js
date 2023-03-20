@@ -56,6 +56,12 @@ function UserProfile() {
       <div className="info-container">
         <p>Oferty:</p>
       </div>
+      <div className="info-container">
+        <p>Zablokowani użytkownicy:</p>
+      </div>
+      <div className="info-container">
+        <p> użytkownicy:</p>
+      </div>
     </div>
   )
 }

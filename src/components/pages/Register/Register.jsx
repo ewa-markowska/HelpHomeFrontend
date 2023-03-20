@@ -21,7 +21,8 @@ const Register = () => {
 
 
   const handleChange = e =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  setFormData({ ...formData, [e.target.name === 'name' ? 'Name' : e.target.name.charAt(0).toUpperCase() + e.target.name.slice(1)]: e.target.value });
+
 
 
     const validatePhoneNumber = phoneNumber => {
@@ -59,12 +60,12 @@ const Register = () => {
       
       try {
         const response = await axios.post('https://localhost:7052/api/account/register', {
-          name,
-          email,
-          password,
-          confirmPassword,
-          phoneNumber,
-          roleId
+          Name: name,
+          Email: email,
+          Password: password,
+          ConfirmPassword: confirmPassword,
+          PhoneNumber: phoneNumber,
+          RoleId: roleId
         });
         setLoading(false);
         setSuccess(true);

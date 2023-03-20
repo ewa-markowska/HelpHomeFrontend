@@ -3,8 +3,7 @@ import '../App.css';
 import {Button} from './Button';
 import './MainView.css';
 import '../components/Stefan.png'
-import { Link } from 'react-router-dom';
-import {motion} from 'framer-motion'
+
 
 
 
@@ -13,7 +12,7 @@ import {motion} from 'framer-motion'
 function MainView() {
   return (
     <div className='mainView-container'>
-        <img className ="stefan" src='./Stefan.png'/>
+        <img className ="stefan" alt="Człowiek trzymający kosz z praniem" src='./Stefan.png'/>
         <div className='welcome-message'>
         <h1>
        

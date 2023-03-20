@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
-import { setUserEmail, setUserId, setUserLoginStatus, logoutUser } from '../../actions';
-import { useDispatch } from 'react-redux';
+import { setUserEmail, setUserId, setUserLoginStatus } from '../../actions';
+import { useDispatch} from 'react-redux';
 import './login.scss'
-
-
 
 function Login() {
   const [email, setEmail] = useState("");

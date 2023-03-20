@@ -1,5 +1,27 @@
 
-
+.form-group{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    label{
+        font-size: 14px;
+        font-weight: 600;
+    }
+    input{
+        padding: 10px;
+        border: none;
+        border-bottom: 1px solid lightgray;
+        font-size: 16px;
+    }
+    input:focus{
+        outline: none;
+    }
+    .error{
+        color: red;
+        font-size: 0.8rem;
+    }
+}
 
 .formX{
      padding-top:50px;
