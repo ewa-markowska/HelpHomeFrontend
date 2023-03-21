@@ -1,27 +1,21 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useSelector } from "react-redux";
-import axios from 'axios';
+
 
 const LocalInfo = ({ formData, setFormData, page, setPage, x, setX, onSubmit }) => {
   // const [phoneNumber, setPhoneNumber] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [street, setStreet] = useState("");
-  const [regularity, setRegularity] = useState([]);
-  const [offerType, setOfferType] = useState("");
+
   const userId = useSelector((state) => state.userId);
-  const [description, setDescription] = useState("");
+ 
   
 
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
-    
+  
     setFormData((prevFormData) => ({
       ...prevFormData,
       address: {
         ...prevFormData.address,
-        id:10,
         [name]: value,
       },
     }));
@@ -29,12 +23,11 @@ const LocalInfo = ({ formData, setFormData, page, setPage, x, setX, onSubmit }) 
 
   const handleDescriptionChange = (e) => {
     const { value } = e.target;
-    setDescription(value);
+  
     setFormData((prevFormData) => ({
       ...prevFormData,
       description: value,
     }));
-    setDescription(value);
   };
 
 
@@ -71,7 +64,7 @@ const LocalInfo = ({ formData, setFormData, page, setPage, x, setX, onSubmit }) 
               type="text"
               placeholder="Adres"
               id="street"
-              name="Street"
+              name="street"
               value={formData.address.street}
               onChange={handleAddressChange}
             />
@@ -83,7 +76,7 @@ const LocalInfo = ({ formData, setFormData, page, setPage, x, setX, onSubmit }) 
               type="text"
               placeholder="Miejscowość"
               id="city"
-              name="City"
+              name="city"
               value={formData.address.city}
               onChange={handleAddressChange}
             />
@@ -95,7 +88,7 @@ const LocalInfo = ({ formData, setFormData, page, setPage, x, setX, onSubmit }) 
               type="text"
               placeholder="Kod pocztowy"
               id="postalCode"
-              name="PostalCode"
+              name="postalCode"
               value={formData.address.postalCode}
               onChange={handleAddressChange}
             />

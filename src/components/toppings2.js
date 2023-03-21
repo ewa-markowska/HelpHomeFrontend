@@ -13,11 +13,11 @@ export const toppings2 = [
       
     },
     {
-      name: "Mycie okien",
+      name: "MycieOkien",
       
     },
     {
-      name: "Czyszczenie dywanów",
+      name: "PranieDywanów",
       
     },
 //     {

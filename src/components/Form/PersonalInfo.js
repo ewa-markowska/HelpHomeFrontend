@@ -2,50 +2,49 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Tickbox1 from "../tickbox1";
 import Tickbox2 from "../tickbox2";
-
+import { toppings1 } from "../toppings1";
 
 const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
- 
   const [offertype, setOffertype] = useState("");
-  const [regularity, setRegularity] = useState("");
-  const [priceOffer,setPriceOffer] = useState("");
+  const [regularity, setRegularity] = useState(null);
+  const [priceOffer, setPriceOffer] = useState("");
 
   const handleRegularityChange = (value) => {
     if (value) {
-      setRegularity(value);
+      const index = toppings1.findIndex((topping) => topping.name === value);
       setFormData({
         ...formData,
-        regularity: value, 
+        regularity: parseInt(index, 10) + 1,
       });
+      setRegularity(parseInt(index, 10) + 1);
     } else {
-      setRegularity("");
       setFormData({
         ...formData,
-        regularity: "", 
+        regularity: null,
       });
+      setRegularity(null);
     }
   };
-
+  
 
   const handleOfferTypeChange = (value) => {
     if (value) {
       setOffertype(value);
       setFormData({
         ...formData,
-        offertype: value, 
-        name:value
+        offertype: value,
+        name: value,
       });
     } else {
       setOffertype("");
       setFormData({
         ...formData,
-        offertype: "", 
-        name:''
+        offertype: "",
+        name: "",
       });
     }
   };
 
-  
   const handlePriceChange = (event) => {
     const { value } = event.target;
     const parsedValue = parseInt(value, 10);
@@ -58,7 +57,7 @@ const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
       ...formData,
       offertype: offertype,
       regularity: regularity,
-      priceOffer: priceOffer
+      priceOffer: priceOffer,
     });
     setPage(page + 1);
     setX(2000);
@@ -76,19 +75,19 @@ const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
         <div className="space">
           Zaznacz właściwe:
           <div>
-            <Tickbox1 setFormData ={setFormData} onChange={handleRegularityChange} />
+            <Tickbox1 setFormData={setFormData} onChange={handleRegularityChange} />
           </div>
 
           <div className="space">
             Typ usługi:
             <div>
-            <Tickbox2 setFormData={setFormData} onChange={handleOfferTypeChange} />
+              <Tickbox2 setFormData={setFormData} onChange={handleOfferTypeChange} />
             </div>
           </div>
         </div>
 
         <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Cena za usługę" value={priceOffer} onChange={handlePriceChange} />
+          <input type="text" placeholder="Cena za usługę" value={priceOffer} onChange={handlePriceChange} />
 
           <div className="button-area">
             <button type="submit">Następny krok</button>

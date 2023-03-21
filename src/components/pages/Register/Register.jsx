@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 const Register = () => {
-  const [formData, setFormData] = useState({
+  const [registerData, setRegisterData] = useState({
     name: '',
     email: '',
     password: '',
@@ -20,8 +20,12 @@ const Register = () => {
   const [phoneNumberValid , setPhoneNumberValid] = useState(true);
 
 
-  const handleChange = e =>
-  setFormData({ ...formData, [e.target.name === 'name' ? 'Name' : e.target.name.charAt(0).toUpperCase() + e.target.name.slice(1)]: e.target.value });
+  const handleChange = e => {
+    setRegisterData({
+      ...registerData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
 
 
@@ -31,7 +35,7 @@ const Register = () => {
     };
 
     const handlePhoneNumberChange = e => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+      setRegisterData({ ...registerData, [e.target.name]: e.target.value });
       setPhoneNumberValid(validatePhoneNumber(e.target.value));
     };
 
@@ -39,7 +43,7 @@ const Register = () => {
       e.preventDefault();
       setLoading(true);
       setError('');
-      const { name, email, password, confirmPassword, phoneNumber, roleId } = formData;
+      const { name, email, password, confirmPassword, phoneNumber, roleId } = registerData;
     
     
 
@@ -98,18 +102,19 @@ const Register = () => {
             <div className="right">
                 <h1>Rejestracja</h1>
                 <form onSubmit={handleSubmit}>
+                <div className="form-group">
                     <input 
                       type="text" 
                       placeholder="Użytkownik"
                       name="name"
-                      value={formData.name}
+                      value={registerData.name}
                       onChange={handleChange} />
 
                     <input
                      type="email" 
                      placeholder="Email"
                      name="email"
-                     value={formData.email}
+                     value={registerData.email}
                      onChange={handleChange}/>
 
                     <input 
@@ -117,22 +122,24 @@ const Register = () => {
                   type="password" 
                   placeholder="Hasło"
                   name="password"
-                  value={formData.password}
-                  onChange={handleChange}/>
+                  value={registerData.password}
+                  onChange={handleChange}
+                  />
 
                     <input
                   type="password"
                   placeholder="Powtórz hasło"
                   name="confirmPassword"
-                  value={formData.confirmPassword}
+                  value={registerData.confirmPassword}
                   onChange={handleChange}
+               
                   />
 
                   <input
                     type="tel"
                     placeholder="Numer telefonu"
                     name="phoneNumber"
-                    value={formData.phoneNumber}
+                    value={registerData.phoneNumber}
                     onChange={handlePhoneNumberChange}
                     className={phoneNumberValid ? '' : 'invalid'}
                     
@@ -142,7 +149,7 @@ const Register = () => {
                           )}
 
                   <div>
-                   <select name="roleId" value={formData.roleId} onChange={handleChange}>
+                   <select name="roleId" value={registerData.roleId} onChange={handleChange}>
                    
 
                    <option value={1}>Szukam pracy</option>
@@ -152,7 +159,7 @@ const Register = () => {
                     <button type="submit">Zarejestruj się</button>
 
                     
-
+</div>
                 </form>
             </div>
         </div>

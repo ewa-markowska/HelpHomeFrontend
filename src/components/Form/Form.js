@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addOffer } from './addOffer';
 import SignUp from './SignUp';
-import PersonalInfo from './PersonalInfo';
+import LocationInfo from './PersonalInfo';
 import LocalInfo from './LocalInfo';
 import { setUserLoginStatus } from '../actions';
 import { isLoggedInSelector } from '../reducers';
@@ -14,14 +14,17 @@ function Form() {
   const [x, setX] = useState(0);
   const [formData, setFormData] = useState({
     offertype: '',
-    id: 20,
     name: '',
     description: '',
     createdDate: new Date().toISOString(),
     priceOffer: 0,
-    regularity:'',
-    address: '',
-    userId:0
+    regularity: 0, 
+    address: {
+      city: "",
+      street: "",     
+      postalCode: ""
+    },
+    userId: 0
   });
   const [page, setPage] = useState(0);
   const isLoggedIn = useSelector(isLoggedInSelector);
@@ -36,17 +39,17 @@ function Form() {
       x={x}
       setX={setX}
     />,
-    <PersonalInfo
+    <LocationInfo
     formData={formData}
     setFormData={setFormData}
     page={page}
     setPage={setPage}
     x={x}
     setX={setX}
-    cleaningFrequency={formData.regularity}
-    setCleaningFrequency={(value) => setFormData({...formData, regularity: value})}
-    serviceType={formData.offertype}
-    setServiceType={(value) => setFormData({...formData, offertype: value})}
+    regularity={formData.regularity}
+    setRegularity={(value) => setFormData({...formData, regularity: value})}
+    offertype={formData.offertype}
+    setOffertype={(value) => setFormData({...formData, offertype: value})}
     />,
     <LocalInfo
     formData={formData}
@@ -55,15 +58,19 @@ function Form() {
     setPage={setPage}
     x={x}
     setX={setX}
-    onSubmit={async () => {
+    userId={userId} 
+    onSubmit={async() => {
       if (validateForm(userId)) {
         try {
+          console.log("User ID:", userId);
+          console.log(formData);
           await addOffer(formData, userId);
-          alert('Offer added successfully!');
+        
         } catch (error) {
           console.log(error);
+         
           alert('An error occurred while adding the offer');
-          console.log(formData)
+          
         }
       }
     }}

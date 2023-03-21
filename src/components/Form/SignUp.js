@@ -10,12 +10,11 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(`Dodano do reduxa status logowania`);
     console.log(`Sending login request for email ${email}...`);
-    axios
-      .post(
+    try {
+      const response = await axios.post(
         "https://localhost:7052/api/account/login",
         {
           Email: email,
@@ -23,35 +22,29 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
           RememberLogin: true,
         },
         { withCredentials: true }
-      )
-      .then((response) => {
-        console.log(`Received login response with status ${response.status}.`);
-        console.log(`Response data: ${JSON.stringify(response.data)}`);
+      );
+      console.log(`Received login response with status ${response.status}.`);
+      console.log(`Response data: ${JSON.stringify(response.data)}`);
   
-        if (
-          response.status === 200 &&
-          response.data.email &&
-          response.data.id
-        ) {
-          dispatch(setUserEmail(response.data.email));
-          console.log(`Email użytkownika to : ${response.data.email}`);
-          dispatch(setUserId(response.data.id));
-          Cookies.set("userId", response.data.id, { expires: 7, path: "/" });
-          alert(`Logged in successfully as ${response.data.email}`);
-          dispatch(setUserLoginStatus(true));
-          setPage(page + 1); // move user to next step
-          setX(2000);
-        } else {
-          console.log(
-            `Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`
-          );
-          alert("Login failed. Please try again.");
-        }
-      })
-      .catch((error) => {
-        console.error(`Error occurred while logging in: ${error}`);
+      if (response.status === 200 && response.data.email && response.data.id) {
+        dispatch(setUserEmail(response.data.email));
+        console.log(`Email użytkownika to : ${response.data.email}`);
+        dispatch(setUserId(response.data.id));
+        Cookies.set("userId", response.data.id, { expires: 7, path: "/" });
+        alert(`Logged in successfully as ${response.data.email}`);
+        dispatch(setUserLoginStatus(true));
+        setPage(page + 1); // move user to next step
+        setX(2000);
+      } else {
+        console.log(
+          `Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`
+        );
         alert("Login failed. Please try again.");
-      });
+      }
+    } catch (error) {
+      console.error(`Error occurred while logging in: ${error}`);
+      alert("Login failed. Please try again.");
+    }
   };
   
 
