@@ -8,16 +8,20 @@ import { setUserLoginStatus } from '../actions';
 import { isLoggedInSelector } from '../reducers';
 import './first.scss';
 
+
 function Form() {
+  const userId = useSelector((state) => state.userId);
   const [x, setX] = useState(0);
   const [formData, setFormData] = useState({
-    Name: '',
-    Description: '',
-    Address: '',
-    PriceOffer: 0,
-    Regularity:'',
-    OfferType: '',
-    CreatedDate: new Date().toISOString(),
+    offertype: '',
+    id: 20,
+    name: '',
+    description: '',
+    createdDate: new Date().toISOString(),
+    priceOffer: 0,
+    regularity:'',
+    address: '',
+    userId:0
   });
   const [page, setPage] = useState(0);
   const isLoggedIn = useSelector(isLoggedInSelector);
@@ -39,10 +43,10 @@ function Form() {
     setPage={setPage}
     x={x}
     setX={setX}
-    cleaningFrequency={formData.Regularity}
-    setCleaningFrequency={(value) => setFormData({...formData, Regularity: value})}
-    serviceType={formData.OfferType}
-    setServiceType={(value) => setFormData({...formData, OfferType: value})}
+    cleaningFrequency={formData.regularity}
+    setCleaningFrequency={(value) => setFormData({...formData, regularity: value})}
+    serviceType={formData.offertype}
+    setServiceType={(value) => setFormData({...formData, offertype: value})}
     />,
     <LocalInfo
     formData={formData}
@@ -52,9 +56,9 @@ function Form() {
     x={x}
     setX={setX}
     onSubmit={async () => {
-      if (validateForm()) {
+      if (validateForm(userId)) {
         try {
-          await addOffer(formData, 1);
+          await addOffer(formData, userId);
           alert('Offer added successfully!');
         } catch (error) {
           console.log(error);
@@ -68,12 +72,12 @@ function Form() {
 
   const validateForm = () => {
     if (page === 0) {
-      if (!formData.Name || !formData.Description) {
+      if (!formData.name || !formData.description) {
         alert('Please enter the name and description of your offer.');
         return false;
       }
     } else if (page === 1) {
-      if (!formData.Address || !formData.PriceOffer) {
+      if (!formData.address || !formData.priceOffer) {
         alert('Please enter the address and price of your offer.');
         return false;
       }

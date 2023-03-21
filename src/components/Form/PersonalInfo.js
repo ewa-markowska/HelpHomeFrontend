@@ -6,22 +6,22 @@ import Tickbox2 from "../tickbox2";
 
 const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
  
-  const [OfferType, setOfferType] = useState("");
-  const [Regularity, setRegularity] = useState("");
-  const [PriceOffer,setPriceOffer] = useState("");
+  const [offertype, setOffertype] = useState("");
+  const [regularity, setRegularity] = useState("");
+  const [priceOffer,setPriceOffer] = useState("");
 
   const handleRegularityChange = (value) => {
     if (value) {
       setRegularity(value);
       setFormData({
         ...formData,
-        Regularity: value, 
+        regularity: value, 
       });
     } else {
       setRegularity("");
       setFormData({
         ...formData,
-        Regularity: "", 
+        regularity: "", 
       });
     }
   };
@@ -29,18 +29,18 @@ const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
 
   const handleOfferTypeChange = (value) => {
     if (value) {
-      setOfferType(value);
+      setOffertype(value);
       setFormData({
         ...formData,
-        OfferType: value, 
-        Name:value
+        offertype: value, 
+        name:value
       });
     } else {
-      setOfferType("");
+      setOffertype("");
       setFormData({
         ...formData,
-        OfferType: "", 
-        Name:''
+        offertype: "", 
+        name:''
       });
     }
   };
@@ -56,9 +56,9 @@ const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
     event.preventDefault();
     setFormData({
       ...formData,
-      OfferType: OfferType,
-      Regularity: Regularity,
-      PriceOffer: PriceOffer
+      offertype: offertype,
+      regularity: regularity,
+      priceOffer: priceOffer
     });
     setPage(page + 1);
     setX(2000);
@@ -88,7 +88,7 @@ const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Cena za usługę" value={PriceOffer} onChange={handlePriceChange} />
+        <input type="text" placeholder="Cena za usługę" value={priceOffer} onChange={handlePriceChange} />
 
           <div className="button-area">
             <button type="submit">Następny krok</button>

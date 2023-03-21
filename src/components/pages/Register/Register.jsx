@@ -69,7 +69,7 @@ const Register = () => {
         });
         setLoading(false);
         setSuccess(true);
-        // Do something with the success response
+       
       } catch (err) {
         setLoading(false);
         setError(err.response.data.message);
