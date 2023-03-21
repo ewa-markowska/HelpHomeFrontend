@@ -67,7 +67,7 @@ function Form() {
           await addOffer(formData, userId);
         
         } catch (error) {
-          console.log(error);
+          console.log(error.response.data);
          
           alert('An error occurred while adding the offer');
           

@@ -13,6 +13,7 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log(`Sending login request for email ${email}...`);
+   
     try {
       const response = await axios.post(
         "https://localhost:7052/api/account/login",
@@ -23,18 +24,25 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
         },
         { withCredentials: true }
       );
-      console.log(`Received login response with status ${response.status}.`);
-      console.log(`Response data: ${JSON.stringify(response.data)}`);
+      console.log(`Received login response:`, response);
+      console.log(`Response headers:`, response.headers);
   
       if (response.status === 200 && response.data.email && response.data.id) {
         dispatch(setUserEmail(response.data.email));
         console.log(`Email użytkownika to : ${response.data.email}`);
         dispatch(setUserId(response.data.id));
         Cookies.set("userId", response.data.id, { expires: 7, path: "/" });
+  
+        const authToken = response.headers["authorization"];
+        Cookies.set("authToken", authToken, { expires: 7, path: "/" });
+        
+        console.log(`The auth token is: ${authToken}`);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+
+
         alert(`Logged in successfully as ${response.data.email}`);
         dispatch(setUserLoginStatus(true));
         setPage(page + 1); // move user to next step
-        setX(2000);
       } else {
         console.log(
           `Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`
@@ -47,12 +55,16 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
     }
   };
   
+  
+  
+  
+  
 
   return (
     <motion.div
       initial={{ x: 2000 }}
       transition={{ duration: 1 }}
-      animate={{ x: 0 }}
+      animate={{ x: x }}
     >
       <div className="card">
         <div className="step-title">Dodaj ofertę!</div>
