@@ -7,9 +7,12 @@ import LocalInfo from './LocalInfo';
 import { setUserLoginStatus } from '../actions';
 import { isLoggedInSelector } from '../reducers';
 import './first.scss';
+import Cookies from 'js-cookie';
 
 
 function Form() {
+  
+
   const userId = useSelector((state) => state.userId);
   const [x, setX] = useState(0);
   const [formData, setFormData] = useState({
@@ -18,11 +21,11 @@ function Form() {
     description: '',
     createdDate: new Date().toISOString(),
     priceOffer: 0,
-    regularity: 0, 
+    regularity: 0,
     address: {
-      city: "",
-      street: "",     
-      postalCode: ""
+      city: '',
+      street: '',
+      postalCode: ''
     },
     userId: 0
   });
@@ -40,16 +43,20 @@ function Form() {
       setX={setX}
     />,
     <LocationInfo
-    formData={formData}
-    setFormData={setFormData}
-    page={page}
-    setPage={setPage}
-    x={x}
-    setX={setX}
-    regularity={formData.regularity}
-    setRegularity={(value) => setFormData({...formData, regularity: value})}
-    offertype={formData.offertype}
-    setOffertype={(value) => setFormData({...formData, offertype: value})}
+      formData={formData}
+      setFormData={setFormData}
+      page={page}
+      setPage={setPage}
+      x={x}
+      setX={setX}
+      regularity={formData.regularity}
+      setRegularity={(value) =>
+        setFormData({ ...formData, regularity: value })
+      }
+      offertype={formData.offertype}
+      setOffertype={(value) =>
+        setFormData({ ...formData, offertype: value })
+      }
     />,
     <LocalInfo
     formData={formData}
@@ -58,37 +65,44 @@ function Form() {
     setPage={setPage}
     x={x}
     setX={setX}
-    userId={userId} 
-    onSubmit={async() => {
-      if (validateForm(userId)) {
+    onSubmit={async () => {
+
+      const roleId = Cookies.get('Role');
+      console.log(`Role ID from cookies while adding offer: ${roleId}`);
+      if (validateForm()) {
         try {
-          console.log("User ID:", userId);
+          console.log('User ID:', userId);
           console.log(formData);
-          await addOffer(formData, userId);
-        
+         
+         
+
+          const response = await addOffer(formData, userId, roleId);
+          if (response.success) {
+            alert('Offer added successfully');
+          } else {
+            alert(response.message);
+          }
         } catch (error) {
           console.log(error.response.data);
-         
           alert('An error occurred while adding the offer');
-          
         }
       }
     }}
   />,
 ];
-
   const validateForm = () => {
-    if (page === 0) {
-      if (!formData.name || !formData.description) {
-        alert('Please enter the name and description of your offer.');
-        return false;
-      }
-    } else if (page === 1) {
-      if (!formData.address || !formData.priceOffer) {
-        alert('Please enter the address and price of your offer.');
-        return false;
-      }
-    }
+    // if (page === 0) {
+    //   if (!formData.name || !formData.description) {
+    //     alert('Please enter the name and description of your offer.');
+        
+    //     return false;
+    //   }
+    // } else if (page === 1) {
+    //   if (!formData.address || !formData.priceOffer) {
+    //     alert('Please enter the address and price of your offer.');
+    //     return false;
+    //   }
+    // }
 
     return true;
   };

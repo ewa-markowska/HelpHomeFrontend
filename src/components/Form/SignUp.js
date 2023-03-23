@@ -10,50 +10,58 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    console.log(`Sending login request for email ${email}...`);
-   
-    try {
-      const response = await axios.post(
-        "https://localhost:7052/api/account/login",
-        {
-          Email: email,
-          Password: password,
-          RememberLogin: true,
-        },
-        { withCredentials: true }
+ const handleLogin = async (e) => {
+  e.preventDefault();
+  console.log(`Sending login request for email ${email}...`);
+
+  try {
+    const response = await axios.post(
+      "https://localhost:7052/api/account/login",
+      {
+        Email: email,
+        Password: password,
+        RememberLogin: true,
+      },
+      { withCredentials: true }
+    );
+    console.log(`Received login response:`, response);
+    console.log(`Response headers:`, response.headers);
+
+    if (response.status === 200 && response.data.email && response.data.id) {
+      dispatch(setUserEmail(response.data.email));
+      console.log(`Email użytkownika to : ${response.data.email}`);
+      dispatch(setUserId(response.data.id));
+      Cookies.set("userId", response.data.id, { expires: 7, path: "/" });
+      Cookies.set("Role", response.data.roleId, { expires: 7, path: "/" });
+      console.log("Cookies ustawione dla id i  role");
+
+      const RoleId = Cookies.get("Role"); 
+      console.log(`The user's role is: ${RoleId}`);
+      console.log(`The user's role is: ${response.data.roleId}`);
+
+     
+
+      alert(`Logged in successfully as ${response.data.email}`);
+      dispatch(setUserLoginStatus(true));
+
+      setPage(page + 1); 
+    } else {
+      console.log(
+        `Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`
       );
-      console.log(`Received login response:`, response);
-      console.log(`Response headers:`, response.headers);
-  
-      if (response.status === 200 && response.data.email && response.data.id) {
-        dispatch(setUserEmail(response.data.email));
-        console.log(`Email użytkownika to : ${response.data.email}`);
-        dispatch(setUserId(response.data.id));
-        Cookies.set("userId", response.data.id, { expires: 7, path: "/" });
-  
-        const authToken = response.headers["authorization"];
-        Cookies.set("authToken", authToken, { expires: 7, path: "/" });
-        
-        console.log(`The auth token is: ${authToken}`);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
-
-
-        alert(`Logged in successfully as ${response.data.email}`);
-        dispatch(setUserLoginStatus(true));
-        setPage(page + 1); // move user to next step
-      } else {
-        console.log(
-          `Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`
-        );
-        alert("Login failed. Please try again.");
-      }
-    } catch (error) {
-      console.error(`Error occurred while logging in: ${error}`);
       alert("Login failed. Please try again.");
     }
-  };
+  } catch (error) {
+    console.error(`Error occurred while logging in: ${error}`);
+    alert("Login failed. Please try again.");
+  }
+};
+
+  
+  
+  
+  
+  
   
   
   

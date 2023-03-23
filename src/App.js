@@ -11,8 +11,11 @@ import Form from "./components/Form/Form";
 import Filter from "./components/Filter";
 import Logout from "./components/Logout";
 import UserProfile from "./components/pages/UserProfile/UserProfile"; 
+import axios from "axios";
+import Cookies from "js-cookie";
 
-
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('cookie');
 
 function App() {
   const [userEmail, setUserEmail] = useState("");

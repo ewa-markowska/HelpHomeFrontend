@@ -1,40 +1,33 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
+
+
+
 
 const BASE_URL = 'https://localhost:7052/api/offers';
 
-export const addOffer = async (offerData, userId) => {
+export const addOffer = async (offerData, userId, roleId) => {
   try {
-    console.log(`Przed axios postem ${offerData}`);
-    const authToken = Cookies.get("authToken"); // get the auth token from the cookie
-    axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`; // set the auth token for all axios requests
-    const response = await axios.post(
-      `${BASE_URL}/user/${userId}`,
-      offerData,
-      { 
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${authToken}`, // set the auth token in the headers
-        },
-      }
-    );
-    console.log(`The auth token is: ${authToken}`);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
-    if (response.status === 200) {
-      alert("Dodano poprawnie ofertę");
-      return { success: true };
-    } else {
-      console.log(offerData);
-      return {
-        success: false,
-        message: "An error occurred while adding the offer",
-      };
+    console.log(`Role id z cookies przed dodaniem oferty w add offer ${roleId}`);
+    if (roleId !== "1" && roleId !== "2") {
+      return { success: false, message: "Only users with role id 1 or 2 can add an offer" };
     }
+
+    const response = await axios.post(`${BASE_URL}/user/${userId}`, offerData, {
+      withCredentials: true
+    });
+
+    if (response.data.success) {
+      alert('Offer added successfully');
+    } else {
+      alert(response.data.message);
+    }
+
+    return { success: response.data.success };
   } catch (error) {
     console.error(error);
     return {
       success: false,
-      message: "An error occurred while adding the offer",
+      message: 'An error occurred while adding the offer'
     };
   }
 };
