@@ -25,8 +25,8 @@ function Profile() {
       <div className='profilecontainer'>
         <div className='userInfo'>
           <div className='leftSide'>
-            <a><i className="fa-solid fa-phone"></i></a>
-            <a><i className="fa-solid fa-envelope"></i></a>
+            <a href="#"><i className="fa-solid fa-phone"></i></a>
+            <a href="#"><i className="fa-solid fa-envelope"></i></a>
             <div className="vl"></div>
           </div>
           <div className='centerSide'>{user.name}</div>

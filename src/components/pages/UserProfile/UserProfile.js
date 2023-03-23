@@ -1,26 +1,27 @@
 import './userProfile.scss';
 import { useParams } from 'react-router-dom';
 import React, {  useEffect,useState } from 'react';
-import{useCookies} from 'react-cookie';
+
 
 
 function UserProfile() {
   const { userId } = useParams();
   
   const [data, setData] = useState([]);
+  const [user, setUser] = useState({});
 
   const toppings1 = [
     {
-      name: "RazWTygodniu",
+      name: "Raz w tygodniu",
     },
     {
-      name: "DwaRazyWTygodniu",
+      name: "Dwa razy w tygodniu",
     },
     {
-      name: "RazWMmiesiącu",
+      name: "Raz w miesiącu",
     },
     {
-      name: "DwaRazyWMiesiącu",
+      name: "Dwa razy w miesiącu",
     },
     {
       name: "Raz",
@@ -38,9 +39,13 @@ function UserProfile() {
 
   useEffect(() => {
     fetch(`https://localhost:7052/api/offers/user/${userId}`)
-    .then(response => response.json())
-    .then(data => setData(data));
-}, [userId]);
+      .then(response => response.json())
+      .then(data => setData(data));
+    
+    fetch(`https://localhost:7052/api/users/${userId}`)
+      .then(response => response.json())
+      .then(user => setUser(user));
+  }, [userId]);
 
 
   return (
@@ -55,7 +60,7 @@ function UserProfile() {
             <a><i className="fa-solid fa-envelope"></i></a> */}
             <div className="vl"></div>
           </div>
-          <div className='centerSide'>Witaj {userId || ''}!</div>
+          <div className='centerSide'>Witaj {user.name}!</div>
           <div className="vl"></div>
           <div className='rightSide'>
           </div>
@@ -68,8 +73,8 @@ function UserProfile() {
                 <p>Typ oferty: {offerDto.name}</p>
                 <p>Opis oferty: {offerDto.description}</p>
                 <p>Cena usługi: {offerDto.priceOffer}</p>
-                <p>Regularność: {getRegularityString(offerDto.regularity) && (
-                <p>Regularność: {getRegularityString(offerDto.regularity)}</p>)}</p>
+              
+                <p>Regularność: {getRegularityString(offerDto.regularity)}</p>
                 {offerDto.address && <p>Adres: {offerDto.address.city}</p>}
               </div>
             );
