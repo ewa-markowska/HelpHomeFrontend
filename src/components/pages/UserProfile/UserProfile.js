@@ -1,6 +1,8 @@
 import './userProfile.scss';
 import { useParams } from 'react-router-dom';
 import React, {  useEffect,useState } from 'react';
+import { deleteOffer } from './deleteOffer';
+import Cookies from 'js-cookie';
 
 
 
@@ -9,6 +11,9 @@ function UserProfile() {
   
   const [data, setData] = useState([]);
   const [user, setUser] = useState({});
+
+  
+
 
   const toppings1 = [
     {
@@ -36,6 +41,23 @@ function UserProfile() {
     return topping ? topping.name : "";
   }
 
+  function handleDeleteOffer(id) {
+    const roleId = Cookies.get('Role'); 
+    console.log(`Role ID from cookies while deleting offer: ${roleId}`);
+
+    deleteOffer(id,roleId)
+      .then(result => {
+        if (result.success) {
+          setData(data.filter(offer => offer.id !== id));
+        } else {
+          throw new Error(result.message);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        alert('Something went wrong while deleting the offer');
+      });
+  }
 
   useEffect(() => {
     fetch(`https://localhost:7052/api/offers/user/${userId}`)
@@ -76,6 +98,7 @@ function UserProfile() {
               
                 <p>Regularność: {getRegularityString(offerDto.regularity)}</p>
                 {offerDto.address && <p>Adres: {offerDto.address.city}</p>}
+                <button onClick={() => handleDeleteOffer(offerDto.id)}>Usuń</button>
               </div>
             );
           })}
