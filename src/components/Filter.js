@@ -122,10 +122,7 @@ function Filter(props) {
                     <td className="rightSide">
 
 
-                          <Link to={{
-                          pathname: `/Profile/${item.userId}`,
-                          state: { seekerId: item.userId}
-                            }}>
+                          <Link to={`/Profile/${item.userId}`}>
                           <motion.button whileHover={{scale:1.5}}>
                             <i class="fa-solid fa-user"></i>
                           </motion.button>

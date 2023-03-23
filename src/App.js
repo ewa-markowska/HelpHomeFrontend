@@ -49,10 +49,10 @@ function App() {
             />
             <Route path="/dodajoferte" element={<Form />} />
             <Route path="/Profile/:Id" element={<Profile userId={userId} />} />
-            <Route path="/UserProfile/:Id" element={<UserProfile userId={userId} />} />
+            <Route path="/UserProfile/:userId" element={<UserProfile userId={userId} />} />
             <Route path="/Form" element={<Form />} />
             <Route path="/Filter" element={<Filter />} />
-            <Route path="/userProfile/:Id" element={<UserProfile userId={userId} />} />
+            {/* <Route path="/userProfile/:Id" element={<UserProfile userId={userId} />} /> */}
           </Routes>
         </Router>
       </>

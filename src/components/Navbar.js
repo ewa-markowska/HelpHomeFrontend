@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./Button";
 import "./Navbar.css";
 import { FaBars, FaUser } from "react-icons/fa";
 import { useCookies } from 'react-cookie';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUserEmail, setUserId, setUserLoginStatus, logoutUser } from './actions';
+import {  setUserLoginStatus, logoutUser } from './actions';
 import Logout from "./Logout";
 
 
@@ -33,15 +33,15 @@ function Navbar({ onLogout }) {
   };
 
   const userId = cookies.userId;
-  const handleSetUserEmail = (email) => {
-    console.log(`Dispatching action SET_USER_EMAIL with payload ${email}`);
-    dispatch(setUserEmail(email));
-  };
+  // const handleSetUserEmail = (email) => {
+  //   console.log(`Dispatching action SET_USER_EMAIL with payload ${email}`);
+  //   dispatch(setUserEmail(email));
+  // };
 
-  const handleSetUserId = (userId) => {
-    console.log(`Dispatching action SET_USER_ID with payload ${userId}`);
-    dispatch(setUserId(userId));
-  };
+  // const handleSetUserId = (userId) => {
+  //   console.log(`Dispatching action SET_USER_ID with payload ${userId}`);
+  //   dispatch(setUserId(userId));
+  // };
 
   const handleSetUserLoginStatus = (status) => {
     console.log(`Dispatching action SET_USER_LOGIN_STATUS with payload ${status}`);

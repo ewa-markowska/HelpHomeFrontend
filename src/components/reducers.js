@@ -20,7 +20,7 @@ const reducers = (state = initialState, action) => {
     case SET_USER_ID:
       return { ...state, userId: action.payload };
     case LOGOUT_USER:
-      return initialState;
+      return { ...state, isLoggedIn: false}
     default:
       return state;
   }

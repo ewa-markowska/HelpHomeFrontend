@@ -35,7 +35,9 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
       Cookies.set("Role", response.data.roleId, { expires: 7, path: "/" });
       console.log("Cookies ustawione dla id i  role");
 
-      const RoleId = Cookies.get("Role"); 
+      const RoleId = Cookies.get("Role");
+      const userIdcheck = response.data.id;
+      console.log(`User ID from cookies check: ${userIdcheck}`);
       console.log(`The user's role is: ${RoleId}`);
       console.log(`The user's role is: ${response.data.roleId}`);
 

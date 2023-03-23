@@ -1,21 +1,21 @@
 import './userProfile.scss';
 import { useParams } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, {  useEffect,useState } from 'react';
+
 
 function UserProfile() {
-  const { Id } = useParams();
+  const { userId } = useParams();
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    fetch(`https://localhost:7052/api/users/${Id}`)
+    fetch(`https://localhost:7052/api/users/${userId}`)
       .then(response => response.json())
       .then(data => {
         setUser(data);
         console.log(data); // add this line
       })
       .catch(error => console.log(error));
-  }, [Id]);
-
+  }, [userId]);
   return (
     <div className='profile'>
       <div className='images'></div>
@@ -66,4 +66,4 @@ function UserProfile() {
   )
 }
 
-export default UserProfile
+export default UserProfile;
