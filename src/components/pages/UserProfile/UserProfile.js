@@ -9,6 +9,32 @@ function UserProfile() {
   
   const [data, setData] = useState([]);
 
+  const toppings1 = [
+    {
+      name: "RazWTygodniu",
+    },
+    {
+      name: "DwaRazyWTygodniu",
+    },
+    {
+      name: "RazWMmiesiącu",
+    },
+    {
+      name: "DwaRazyWMiesiącu",
+    },
+    {
+      name: "Raz",
+    },
+    {
+      name: "Inna",
+    },
+  ];
+
+  function getRegularityString(regularity) {
+    const topping = toppings1[regularity - 1];
+    return topping ? topping.name : "";
+  }
+
 
   useEffect(() => {
     fetch(`https://localhost:7052/api/offers/user/${userId}`)
@@ -42,7 +68,8 @@ function UserProfile() {
                 <p>Typ oferty: {offerDto.name}</p>
                 <p>Opis oferty: {offerDto.description}</p>
                 <p>Cena usługi: {offerDto.priceOffer}</p>
-                <p>Regularność: {offerDto.regularity}</p>
+                <p>Regularność: {getRegularityString(offerDto.regularity) && (
+                <p>Regularność: {getRegularityString(offerDto.regularity)}</p>)}</p>
                 {offerDto.address && <p>Adres: {offerDto.address.city}</p>}
               </div>
             );
