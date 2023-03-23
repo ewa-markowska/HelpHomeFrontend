@@ -42,7 +42,14 @@ function Profile() {
       <p>Typ oferty: {offerDto.name}</p>
       <p>Opis oferty: {offerDto.description}</p>
       <p>Cena usługi: {offerDto.priceOffer}</p>
-      {offerDto.address && <p>Adres: {offerDto.address}</p>}
+      {offerDto.address && (
+  <div>
+    <p>Adres:</p>
+    <p>Miasto: {offerDto.address.city}</p>
+    <p>Ulica: {offerDto.address.street}</p>
+    <p>Kod pocztowy: {offerDto.address.postalCode}</p>
+  </div>
+)}
     </div>
   );
 })}

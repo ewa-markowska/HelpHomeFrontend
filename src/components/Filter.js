@@ -19,7 +19,7 @@ function Filter(props) {
       .then(response => response.json())
       .then(data => setData(data));
   }, []);
-
+ console.log(data);
   const handleFilterChange = (name, value) => {
     setFilter({ ...filter, [name]: value });
   };

@@ -1,19 +1,19 @@
 export const toppings1 = [
    
     {
-      name: "Raz w tygodniu",
+      name: "RazWTygodniu",
       
     },
     {
-      name: "Dwa razy w tygodniu",
+      name: "DwaRazyWTygodniu",
       
     },
     {
-      name: "Raz w miesiącu",
+      name: "RazWMmiesiącu",
       
     },
     {
-      name: "Dwa razy w miesiącu",
+      name: "DwaRazyWMiesiącu",
       
     },
     {

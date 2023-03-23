@@ -1,21 +1,22 @@
 import './userProfile.scss';
 import { useParams } from 'react-router-dom';
 import React, {  useEffect,useState } from 'react';
+import{useCookies} from 'react-cookie';
 
 
 function UserProfile() {
   const { userId } = useParams();
-  const [user, setUser] = useState({});
+  
+  const [data, setData] = useState([]);
+
 
   useEffect(() => {
-    fetch(`https://localhost:7052/api/users/${userId}`)
-      .then(response => response.json())
-      .then(data => {
-        setUser(data);
-        console.log(data); // add this line
-      })
-      .catch(error => console.log(error));
-  }, [userId]);
+    fetch(`https://localhost:7052/api/offers/user/${userId}`)
+    .then(response => response.json())
+    .then(data => setData(data));
+}, [userId]);
+
+
   return (
     <div className='profile'>
       <div className='images'></div>
@@ -28,20 +29,21 @@ function UserProfile() {
             <a><i className="fa-solid fa-envelope"></i></a> */}
             <div className="vl"></div>
           </div>
-          <div className='centerSide'>Witaj {user.name || ''}!</div>
+          <div className='centerSide'>Witaj {userId || ''}!</div>
           <div className="vl"></div>
           <div className='rightSide'>
           </div>
         </div>
         <div>
-          {user.offerDtos && user.offerDtos.map(offerDto => {
-            console.log(offerDto); // add this line
+          {data && data.map(offerDto => {
+            console.log(offerDto); 
             return (
               <div className="info-container" key={offerDto.id}>
                 <p>Typ oferty: {offerDto.name}</p>
                 <p>Opis oferty: {offerDto.description}</p>
                 <p>Cena usługi: {offerDto.priceOffer}</p>
-                {offerDto.address && <p>Adres: {offerDto.address}</p>}
+                <p>Regularność: {offerDto.regularity}</p>
+                {offerDto.address && <p>Adres: {offerDto.address.city}</p>}
               </div>
             );
           })}
@@ -60,7 +62,7 @@ function UserProfile() {
         <p>Zablokowani użytkownicy:</p>
       </div>
       <div className="info-container">
-        <p> użytkownicy:</p>
+        <p> Ulubieni użytkownicy:</p>
       </div>
     </div>
   )

@@ -8,6 +8,7 @@ const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
   const [offertype, setOffertype] = useState("");
   const [regularity, setRegularity] = useState(null);
   const [priceOffer, setPriceOffer] = useState("");
+ 
 
   const handleRegularityChange = (value) => {
     if (value) {
@@ -25,6 +26,7 @@ const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
       setRegularity(null);
     }
   };
+  
   
 
   const handleOfferTypeChange = (value) => {

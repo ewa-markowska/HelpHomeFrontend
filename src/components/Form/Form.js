@@ -21,7 +21,7 @@ function Form() {
     description: '',
     createdDate: new Date().toISOString(),
     priceOffer: 0,
-    regularity: 0,
+    regularity: null,
     address: {
       city: '',
       street: '',
@@ -91,18 +91,18 @@ function Form() {
   />,
 ];
   const validateForm = () => {
-    // if (page === 0) {
-    //   if (!formData.name || !formData.description) {
-    //     alert('Please enter the name and description of your offer.');
+    if (page === 0) {
+      if (!formData.name || !formData.description) {
+        alert('Please enter the name and description of your offer.');
         
-    //     return false;
-    //   }
-    // } else if (page === 1) {
-    //   if (!formData.address || !formData.priceOffer) {
-    //     alert('Please enter the address and price of your offer.');
-    //     return false;
-    //   }
-    // }
+        return false;
+      }
+    } else if (page === 1) {
+      if (!formData.address || !formData.priceOffer) {
+        alert('Please enter the address and price of your offer.');
+        return false;
+      }
+    }
 
     return true;
   };

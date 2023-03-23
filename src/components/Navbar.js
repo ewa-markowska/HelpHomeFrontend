@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./Button";
 import "./Navbar.css";
@@ -21,7 +21,7 @@ function Navbar({ onLogout }) {
     setClick(false);
     setDropdownOpen(false);
   };
-  
+  const [userId,setUserId] = useState(cookies.userId);
   const userEmail = useSelector(state => state.auth?.userEmail);
   const dispatch = useDispatch();
 
@@ -32,7 +32,14 @@ function Navbar({ onLogout }) {
     onLogout();
   };
 
-  const userId = cookies.userId;
+  useEffect(() => {
+    if (userEmail) {
+      fetch(`https://localhost:7052/api/users?email=${userEmail}`)
+        .then(response => response.json())
+        .then(data => setUserId(data.id))
+        .catch(error => console.log(error));
+    }
+  }, [userEmail]);
   // const handleSetUserEmail = (email) => {
   //   console.log(`Dispatching action SET_USER_EMAIL with payload ${email}`);
   //   dispatch(setUserEmail(email));
