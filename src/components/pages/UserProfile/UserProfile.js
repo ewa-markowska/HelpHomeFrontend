@@ -11,6 +11,7 @@ function UserProfile() {
   
   const [data, setData] = useState([]);
   const [user, setUser] = useState({});
+  const [offerDeleted, setOfferDeleted] = useState(false);
 
   
 
@@ -44,11 +45,12 @@ function UserProfile() {
   function handleDeleteOffer(id) {
     const roleId = Cookies.get('Role'); 
     console.log(`Role ID from cookies while deleting offer: ${roleId}`);
-
+  
     deleteOffer(id,roleId)
       .then(result => {
         if (result.success) {
           setData(data.filter(offer => offer.id !== id));
+          setOfferDeleted(true); 
         } else {
           throw new Error(result.message);
         }
