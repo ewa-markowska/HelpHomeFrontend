@@ -10,7 +10,8 @@ import Profile from "./components/pages/Profile/Profile";
 import Form from "./components/Form/Form";
 import Filter from "./components/Filter";
 import Logout from "./components/Logout";
-import UserProfile from "./components/pages/UserProfile/UserProfile"; 
+import UserProfile from "./components/pages/UserProfile/UserProfile";
+import EditOffer from "./components/pages/UserProfile/EditOffer";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -21,6 +22,7 @@ function App() {
   const [userEmail, setUserEmail] = useState("");
   const [userId, setUserId] = useState(localStorage.getItem("userId"));
   const [loggedIn, setLoggedIn] = useState(!!userEmail);
+  const [offerId, setOfferId] = useState(localStorage.getItem("offerId"));
 
   const handleLogout = () => {
     setLoggedIn(false);
@@ -53,6 +55,7 @@ function App() {
             <Route path="/Form" element={<Form />} />
             <Route path="/Filter" element={<Filter />} />
             {/* <Route path="/userProfile/:Id" element={<UserProfile userId={userId} />} /> */}
+            <Route path="EditOffer/:offerId" element={<EditOffer offerId={offerId} />} />
           </Routes>
         </Router>
       </>

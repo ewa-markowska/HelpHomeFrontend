@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import React, {  useEffect,useState } from 'react';
 import { deleteOffer } from './deleteOffer';
 import Cookies from 'js-cookie';
+import EditOffer from './EditOffer';
 
 
 
@@ -12,6 +13,7 @@ function UserProfile() {
   const [data, setData] = useState([]);
   const [user, setUser] = useState({});
   const [offerDeleted, setOfferDeleted] = useState(false);
+  const [editingOffer, setEditingOffer] = useState(null);
 
   
 
@@ -70,7 +72,18 @@ function UserProfile() {
       .then(response => response.json())
       .then(user => setUser(user));
   }, [userId]);
+  
+  function handleEditOffer(offer) {
+    localStorage.setItem("offerId", offer.id);
+    setEditingOffer(offer);
+    console.log(offer.id)
+    console.log(`Id oferty do edycji : ${localStorage.getItem("offerId")}`);
+  }
 
+  function handleOfferUpdated() {
+    setOfferDeleted(true);
+    setEditingOffer(null);
+  }
 
   return (
     <div className='profile'>
@@ -91,7 +104,7 @@ function UserProfile() {
         </div>
         <div>
           {data && data.map(offerDto => {
-            console.log(offerDto); 
+            // console.log(offerDto); 
             return (
               <div className="info-container" key={offerDto.id}>
                 <p>Typ oferty: {offerDto.name}</p>
@@ -101,9 +114,22 @@ function UserProfile() {
                 <p>Regularność: {getRegularityString(offerDto.regularity)}</p>
                 {offerDto.address && <p>Adres: {offerDto.address.city}</p>}
                 <button onClick={() => handleDeleteOffer(offerDto.id)}>Usuń</button>
+                <button onClick={() => setEditingOffer(offerDto)}>Edytuj ofertę</button>
+                
               </div>
             );
           })}
+           {editingOffer && (
+   <EditOffer
+        offerId={editingOffer.id}
+        onClose={() => setEditingOffer(null)}
+        onEditOffer={handleEditOffer}
+        description={editingOffer.currentDescription}
+        price={editingOffer.currentPrice}
+        address={editingOffer.currentAddress}
+        regularity={editingOffer.currentRegularity}
+ />
+  )}
         </div>
       </div>
       <div className="info-container">
