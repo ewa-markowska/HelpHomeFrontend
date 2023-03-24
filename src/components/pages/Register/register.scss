@@ -68,17 +68,17 @@
                 form{
                     display: flex;
                     flex-direction:column;
-                    gap:30px;
+                    gap:60px;
                     min-width:450px;
                     input{
-                        border:none;
+                        border:black;
                         border-bottom:1px solid lightgray;
                         padding:20px 10px;
                         
                     }
                     button{
                     background-color: rgb(77, 110, 107);
-                    width:50%;
+                    width:10%;
                     padding:10px;
                     border:none;
                     color:#ffffff;

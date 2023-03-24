@@ -14,8 +14,9 @@ function UserProfile() {
   const [user, setUser] = useState({});
   const [offerDeleted, setOfferDeleted] = useState(false);
   const [editingOffer, setEditingOffer] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  
+ 
 
 
   const toppings1 = [
@@ -43,10 +44,17 @@ function UserProfile() {
     const topping = toppings1[regularity - 1];
     return topping ? topping.name : "";
   }
+  
+  function openModal(offer) {
+    setEditingOffer(offer);
+    setIsModalOpen(true);
+  }
 
   function handleDeleteOffer(id) {
     const roleId = Cookies.get('Role'); 
     console.log(`Role ID from cookies while deleting offer: ${roleId}`);
+  
+   
   
     deleteOffer(id,roleId)
       .then(result => {
@@ -85,7 +93,6 @@ function UserProfile() {
     setOfferDeleted(true);
     setEditingOffer(null);
   }
-
   return (
     <div className='profile'>
       <div className='images'></div>
@@ -103,52 +110,80 @@ function UserProfile() {
           <div className='rightSide'>
           </div>
         </div>
-        <div>
-          {data && data.map(offerDto => {
-            // console.log(offerDto); 
-            return (
-              <div className="info-container" key={offerDto.id}>
-                <p>Typ oferty: {offerDto.name}</p>
-                <p>Opis oferty: {offerDto.description}</p>
-                <p>Cena usługi: {offerDto.priceOffer}</p>
-              
-                <p>Regularność: {getRegularityString(offerDto.regularity)}</p>
-                {offerDto.address && <p>Adres: {offerDto.address.city}</p>}
-                <button onClick={() => handleDeleteOffer(offerDto.id)}>Usuń</button>
-                <button onClick={() => setEditingOffer(offerDto)}>Edytuj ofertę</button>
-                
-              </div>
-            );
-          })}
-           {editingOffer && (
-   <EditOffer
-        offerId={editingOffer.id}
-        onClose={() => setEditingOffer(null)}
-        onEditOffer={handleEditOffer}
-        name={editingOffer.name}
-        description={editingOffer.currentDescription}
-        price={editingOffer.currentPrice}
-        address={editingOffer.currentAddress}
-        regularity={editingOffer.currentRegularity}
- />
-  )}
+        {data && data.map(offerDto => {
+          // console.log(offerDto); 
+          return (
+            <div className="info-container" key={offerDto.id}>
+              <p>Typ oferty: {offerDto.name}</p>
+              <p>Opis oferty: {offerDto.description}</p>
+              <p>Cena usługi: {offerDto.priceOffer}</p>
+            
+              <p>Regularność: {getRegularityString(offerDto.regularity)}</p>
+              {offerDto.address && <p>Adres: {offerDto.address.city}</p>}
+              <button onClick={() => handleDeleteOffer(offerDto.id)}>Usuń</button>
+              <button onClick={() => openModal(offerDto)}>Edytuj ofertę</button>
+            </div>
+          )
+        })}
+        <div className="info-container">
+          <p>Eventy:</p>
         </div>
+        <div className="info-container">
+          <p>Wiadomości:</p>
+        </div>
+        <div className="info-container">
+          <p>Oferty:</p>
+        </div>
+        <div className="info-container">
+          <p>Zablokowani użytkownicy:</p>
+        </div>
+        <div className="info-container">
+          <p>Ulubieni użytkownicy:</p>
+        </div>
+        {isModalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <EditOffer
+                onClose={() => setIsModalOpen(false)}
+                offerId={editingOffer.id}
+                onEditOffer={handleOfferUpdated}
+                name={editingOffer.name}
+                description={editingOffer.currentDescription}
+                price={editingOffer.currentPrice}
+                address={editingOffer.currentAddress}
+                regularity={editingOffer.currentRegularity}
+              />
+            </div>
+          </div>
+        )}
+        {/* {editingOffer && (
+          <EditOffer
+            offerId={editingOffer.id}
+            onClose={() => setEditingOffer(null)}
+            onEditOffer={handleEditOffer}
+            name={editingOffer.name}
+            description={editingOffer.currentDescription}
+            price={editingOffer.currentPrice}
+            address={editingOffer.currentAddress}
+            regularity={editingOffer.currentRegularity}
+          />
+        )} */}
+        <div className="info-container">
+          <p>Eventy:</p>
+        </div>
+        <div className="info-container">
+          <p>Wiadomości:</p>
+        </div>
+    <div className="info-container">
+      <p>Oferty:</p>
+    </div>
+    <div className="info-container">
+      <p>Zablokowani użytkownicy:</p>
+    </div>
+    <div className="info-container">
+      <p> Ulubieni użytkownicy:</p>
       </div>
-      <div className="info-container">
-        <p>Eventy:</p>
-      </div>
-      <div className="info-container">
-        <p>Wiadomości:</p>
-      </div>
-      <div className="info-container">
-        <p>Oferty:</p>
-      </div>
-      <div className="info-container">
-        <p>Zablokowani użytkownicy:</p>
-      </div>
-      <div className="info-container">
-        <p> Ulubieni użytkownicy:</p>
-      </div>
+    </div>
     </div>
   )
 }

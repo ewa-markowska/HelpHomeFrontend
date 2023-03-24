@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 // import { useParams } from 'react-router-dom';
 import { updateOffer } from './updateOffer';
+import './userProfile.scss';
+
+
 
 const EditOffer = ({ offerId = '', onClose, onEditOffer,name, description, price, address = {}, regularity ,updateDate}) => {
     console.log("EditOffer component rendered");
@@ -110,6 +113,9 @@ const EditOffer = ({ offerId = '', onClose, onEditOffer,name, description, price
         <div className="form-group">
           <button type="submit"onClick={handleUpdateOffer}> Zapisz</button>
           <button type="button"onClick={onClose} >Anuluj</button>
+          <button className="close-button" onClick={onClose}>
+          <span>&times;</span>
+        </button>
         </div>
       </form>
     </div>
