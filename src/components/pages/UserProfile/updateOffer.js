@@ -1,19 +1,52 @@
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
-export const updateOffer =  (offerId, description, priceOffer, address, regularity) => {
-    const roleId = Cookies.get('Role');
-    const requestOptions = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        description: description,
-        priceOffer: priceOffer,
-        address: address,
-        regularity: regularity
-      })
-    };
-    return fetch(`https://localhost:7052/api/offers/${offerId}?roleId=${roleId}`, requestOptions)
-      .then(response => response.json());
+const BASE_URL = 'https://localhost:7052/api/offers';
+
+export const updateOffer = async (offerId, dto) => {
+    const roleId = parseInt(Cookies.get('Role'));
+    console.log(`updateOffer: Role ID from cookies w metodzie update offer : ${roleId}`);
+    console.log(`updateOffer: offer id przed put : ${offerId}`);
+    
+   
+    try {
+      if (roleId !== 1 && roleId !== 2) {
+          return { success: false, message: "Only users with role id 1 or 2 can update an offer" };
+      }
+      const updateData = {
+        name: dto.name,
+        description: dto.description,
+        priceOffer: dto.priceOffer,
+        address: {
+          city: dto.address.city,
+          street: dto.address.street,
+          postalCode: dto.address.postalCode
+        },
+        regularity: dto.regularity,
+        updateDate: dto.updateDate
+      };
+      const response = await axios.put(`${BASE_URL}/${offerId}`, updateData, {
+        withCredentials: true
+      });
+      console.log(response.data);
+  
+      
+      if (response.status === 200) {
+        alert('Offer updated successfully');
+        return { success: true, offer: response.data.offer };
+      } else {
+        alert(response.data.message);
+       
+        return { success: false, message: response.data.message };
+      }
+  
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        message: 'An error occurred while updating the offer'
+      };
+    }
   };
+
+  

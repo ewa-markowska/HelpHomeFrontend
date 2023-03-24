@@ -75,8 +75,9 @@ function UserProfile() {
   
   function handleEditOffer(offer) {
     localStorage.setItem("offerId", offer.id);
+  
     setEditingOffer(offer);
-    console.log(offer.id)
+   
     console.log(`Id oferty do edycji : ${localStorage.getItem("offerId")}`);
   }
 
@@ -124,6 +125,7 @@ function UserProfile() {
         offerId={editingOffer.id}
         onClose={() => setEditingOffer(null)}
         onEditOffer={handleEditOffer}
+        name={editingOffer.name}
         description={editingOffer.currentDescription}
         price={editingOffer.currentPrice}
         address={editingOffer.currentAddress}
