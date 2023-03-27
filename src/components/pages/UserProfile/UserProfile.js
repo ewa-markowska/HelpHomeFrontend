@@ -81,13 +81,7 @@ function UserProfile() {
       .then(user => setUser(user));
   }, [userId]);
   
-  function handleEditOffer(offer) {
-    localStorage.setItem("offerId", offer.id);
   
-    setEditingOffer(offer);
-   
-    console.log(`Id oferty do edycji : ${localStorage.getItem("offerId")}`);
-  }
 
   function handleOfferUpdated() {
     setOfferDeleted(true);

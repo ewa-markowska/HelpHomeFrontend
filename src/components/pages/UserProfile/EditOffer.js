@@ -62,7 +62,7 @@ const EditOffer = ({ offerId = '', onClose, onEditOffer,name, description, price
           description: currentDescription,
           priceOffer: currentPrice,
           address: updatedAddress,
-          regularity: currentRegularity,
+          regularity: parseInt(currentRegularity),
           updateDate: new Date().toISOString()
         }
       
