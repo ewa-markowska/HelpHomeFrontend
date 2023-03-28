@@ -5,7 +5,7 @@ import './userProfile.scss';
 
 
 
-const EditOffer = ({ offerId = '', onClose, onEditOffer,name, description, price, address = {}, regularity ,updateDate}) => {
+const EditOffer = ({ offerId = '', onClose, onEditOffer,name, description, price, address = {}, regularity}) => {
     console.log("EditOffer component rendered");
     console.log(`Id updatowanej oferty: ${offerId}`);
   
@@ -18,6 +18,7 @@ const EditOffer = ({ offerId = '', onClose, onEditOffer,name, description, price
     });
     const [currentRegularity, setCurrentRegularity] = useState(regularity);
     const [error, setError] = useState('');
+    const [updateDate, setUpdateDate] = useState('');
 
     useEffect(() => {
         console.log(`Editing offer id ${offerId}`)
@@ -36,6 +37,7 @@ const EditOffer = ({ offerId = '', onClose, onEditOffer,name, description, price
                     postalCode: data.address.postalCode
                 });
                 setCurrentRegularity(data.regularity);
+                setUpdateDate(data.updateDate);
             })
             .catch(error => {
                 console.error(error);
@@ -65,9 +67,10 @@ const EditOffer = ({ offerId = '', onClose, onEditOffer,name, description, price
           regularity: parseInt(currentRegularity),
           updateDate: new Date().toISOString()
         }
-      
-        updateOffer(offerId, dto)
-        console.log(`po update offer ${offerId},    ${dto}`)
+       
+        updateOffer(offerId, { ...dto }); 
+        console.log(`po update offer ${offerId},    ${dto}`);
+        onClose();
         
       }
     
@@ -111,7 +114,7 @@ const EditOffer = ({ offerId = '', onClose, onEditOffer,name, description, price
         </div>
         
         <div className="form-group">
-          <button type="submit"onClick={handleUpdateOffer}> Zapisz</button>
+          <button type="submit"onClick={handleUpdateOffer} > Zapisz</button>
           <button type="button"onClick={onClose} >Anuluj</button>
           <button className="close-button" onClick={onClose}>
           <span>&times;</span>

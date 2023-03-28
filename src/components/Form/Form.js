@@ -68,24 +68,16 @@ function Form() {
     onSubmit={async () => {
 
       const roleId = Cookies.get('Role');
-      console.log(`Role ID from cookies while adding offer: ${roleId}`);
+      // console.log(`Role ID from cookies while adding offer: ${roleId}`);
       if (validateForm()) {
-        try {
-          console.log('User ID:', userId);
-          console.log(formData);
+        
+          // console.log('User ID:', userId);
+          // console.log(formData);
          
          
 
           const response = await addOffer(formData, userId, roleId);
-          if (response.success) {
-            alert('Offer added successfully');
-          } else {
-            alert(response.message);
-          }
-        } catch (error) {
-          console.log(error.response.data);
-          alert('An error occurred while adding the offer');
-        }
+        
       }
     }}
   />,

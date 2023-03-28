@@ -48,7 +48,7 @@ const LocalInfo = ({ formData, setFormData, page, setPage, x, setX, onSubmit }) 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit();
+    
   };
 
   return (
@@ -104,7 +104,12 @@ const LocalInfo = ({ formData, setFormData, page, setPage, x, setX, onSubmit }) 
             />
           </div>
           <div className="button-area">
-          <button type="submit" onClick={() => handleUserIdChange(userId)}>Dodaj</button>
+          <button type="submit" onClick={() => {
+              handleUserIdChange(userId);
+              onSubmit();
+            }}>
+              Dodaj
+            </button>
            
             <br />
             <button

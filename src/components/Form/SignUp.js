@@ -12,7 +12,7 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
 
  const handleLogin = async (e) => {
   e.preventDefault();
-  console.log(`Sending login request for email ${email}...`);
+  // console.log(`Sending login request for email ${email}...`);
 
   try {
     const response = await axios.post(
@@ -29,7 +29,7 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
 
     if (response.status === 200 && response.data.email && response.data.id) {
       dispatch(setUserEmail(response.data.email));
-      console.log(`Email użytkownika to : ${response.data.email}`);
+      // console.log(`Email użytkownika to : ${response.data.email}`);
       dispatch(setUserId(response.data.id));
       Cookies.set("userId", response.data.id, { expires: 7, path: "/" });
       Cookies.set("Role", response.data.roleId, { expires: 7, path: "/" });
@@ -43,7 +43,7 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
 
      
 
-      alert(`Logged in successfully as ${response.data.email}`);
+      alert(`Zalogowano jako ${response.data.email}`);
       dispatch(setUserLoginStatus(true));
 
       setPage(page + 1); 
@@ -51,11 +51,11 @@ const SignUp = ({ onLogin, page, setPage, x, setX}) => {
       console.log(
         `Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`
       );
-      alert("Login failed. Please try again.");
+      alert("Logowanie nie powiodło się.");
     }
   } catch (error) {
     console.error(`Error occurred while logging in: ${error}`);
-    alert("Login failed. Please try again.");
+    alert("Logowanie nie powiodło się.");
   }
 };
 

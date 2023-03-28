@@ -6,20 +6,19 @@ import axios from 'axios';
 const BASE_URL = 'https://localhost:7052/api/offers';
 
 export const addOffer = async (offerData, userId, roleId) => {
-  console.log("wołanie addoffer")
   try {
-    // console.log(`Role id z cookies przed dodaniem oferty w add offer ${roleId}`);
+    console.log(`Role id z cookies przed dodaniem oferty w add offer ${roleId}`);
     
     if (roleId !== "1" && roleId !== "2") {
       return { success: false, message: "Only users with role id 1 or 2 can add an offer" };
     }
-    
+  
     const response = await axios.post(`${BASE_URL}/user/${userId}`, offerData, {
       withCredentials: true
     });
   
     if (response.status === 200) {
-      alert('Twoja oferta została dodana!');
+      alert('Offer added successfully');
       return { success: true, message: response.data.message };
     } else {
       alert(response.data.message);

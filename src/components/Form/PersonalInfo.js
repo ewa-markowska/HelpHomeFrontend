@@ -3,9 +3,10 @@ import { motion } from "framer-motion";
 import Tickbox1 from "../tickbox1";
 import Tickbox2 from "../tickbox2";
 import { toppings1 } from "../toppings1";
+import { toppings2 } from "../toppings2";
 
 const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
-  const [offertype, setOffertype] = useState("");
+  const [offertype, setOffertype] = useState(null);
   const [regularity, setRegularity] = useState(null);
   const [priceOffer, setPriceOffer] = useState("");
  
@@ -31,17 +32,19 @@ const LocationInfo = ({ formData, setFormData, page, setPage, x, setX }) => {
 
   const handleOfferTypeChange = (value) => {
     if (value) {
+      const index = toppings2.findIndex((topping) => topping.name === value);
+      const offerTypeValue = parseInt(index, 10) + 1;
       setOffertype(value);
       setFormData({
         ...formData,
-        offertype: value,
+        offerType: offerTypeValue,
         name: value,
       });
     } else {
       setOffertype("");
       setFormData({
         ...formData,
-        offertype: "",
+        offerType: null,
         name: "",
       });
     }

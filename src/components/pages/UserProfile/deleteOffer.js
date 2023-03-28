@@ -15,10 +15,8 @@ export const deleteOffer = async (offerId, roleId) => {
     });
 
     if (response.status === 204) {
-      alert('Offer deleted successfully');
-      return { success: true, message: 'Offer deleted successfully' };
+      return { success: true, message: 'Oferta została usunięta.' };
     } else {
-      alert(response.data.message);
       return { success: false, message: response.data.message };
     }
 

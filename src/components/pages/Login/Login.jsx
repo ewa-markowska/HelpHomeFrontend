@@ -7,13 +7,14 @@ import { useDispatch} from 'react-redux';
 import './login.scss'
 
 function Login() {
+  console.log("Login component rendering...");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
  const handleLogin = async (e) => {
   e.preventDefault();
-  console.log(`Sending login request for email ${email}...`);
+  // console.log(`Sending login request for email ${email}...`);
 
   try {
     const response = await axios.post(
@@ -25,8 +26,8 @@ function Login() {
       },
       { withCredentials: true }
     );
-    console.log(`Received login response:`, response);
-    console.log(`Response headers:`, response.headers);
+    // console.log(`Received login response:`, response);
+    // console.log(`Response headers:`, response.headers);
 
     if (response.status === 200 && response.data.email && response.data.id) {
       dispatch(setUserEmail(response.data.email));
@@ -34,13 +35,13 @@ function Login() {
       dispatch(setUserId(response.data.id));
       Cookies.set("userId", response.data.id, { expires: 7, path: "/" });
       Cookies.set("Role", response.data.roleId, { expires: 7, path: "/" });
-      console.log("Cookies ustawione dla id i  role");
+      // console.log("Cookies ustawione dla id i  role");
 
       const RoleId = Cookies.get("Role");
       const userIdcheck = response.data.id;
-      console.log(`User ID from cookies check: ${userIdcheck}`);
-      console.log(`The user's role is: ${RoleId}`);
-      console.log(`The user's role is: ${response.data.roleId}`);
+      // console.log(`User ID from cookies check: ${userIdcheck}`);
+      // console.log(`The user's role is: ${RoleId}`);
+      // console.log(`The user's role is: ${response.data.roleId}`);
 
      
 
@@ -48,13 +49,13 @@ function Login() {
       dispatch(setUserLoginStatus(true));
 
     } else {
-      console.log(
-        `Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`
-      );
+      // console.log(
+      //   `Login failed. Response status: ${response.status}, email: ${response.data.email}, id: ${response.data.id}`
+      // );
       alert("Login failed. Please try again.");
     }
   } catch (error) {
-    console.error(`Error occurred while logging in: ${error}`);
+    // console.error(`Error occurred while logging in: ${error}`);
     alert("Login failed. Please try again.");
   }
 };

@@ -4,6 +4,8 @@ import React, {  useEffect,useState } from 'react';
 import { deleteOffer } from './deleteOffer';
 import Cookies from 'js-cookie';
 import EditOffer from './EditOffer';
+import addOffer from './addOffer';
+
 
 
 
@@ -15,6 +17,8 @@ function UserProfile() {
   const [offerDeleted, setOfferDeleted] = useState(false);
   const [editingOffer, setEditingOffer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [offerUpdated, setOfferUpdated] = useState(false);
+
 
  
 
@@ -50,41 +54,55 @@ function UserProfile() {
     setIsModalOpen(true);
   }
 
+  function handleUpdateOfferInData(offer) {
+    setData(data.map(d => d.id === offer.id ? offer : d));
+  }
+
   function handleDeleteOffer(id) {
     const roleId = Cookies.get('Role'); 
-    console.log(`Role ID from cookies while deleting offer: ${roleId}`);
   
-   
+    const confirmDelete = window.confirm("Czy jestes pewien że chcesz usunąc ofertę?");
   
-    deleteOffer(id,roleId)
-      .then(result => {
-        if (result.success) {
-          setData(data.filter(offer => offer.id !== id));
-          setOfferDeleted(true); 
-        } else {
-          throw new Error(result.message);
-        }
-      })
-      .catch(error => {
-        console.error(error);
-        alert('Something went wrong while deleting the offer');
-      });
+    if (confirmDelete) {
+      deleteOffer(id, roleId)
+        .then(result => {
+          if (result.success) {
+            setData(data.filter(offer => offer.id !== id));
+            setOfferDeleted(true);
+          } else {
+            throw new Error(result.message);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          alert('Something went wrong while deleting the offer');
+        });
+    }
   }
+  
 
   useEffect(() => {
     fetch(`https://localhost:7052/api/offers/user/${userId}`)
       .then(response => response.json())
-      .then(data => setData(data));
+      .then(data => setData(data))
+      .catch(error => console.error(error));
     
     fetch(`https://localhost:7052/api/users/${userId}`)
       .then(response => response.json())
-      .then(user => setUser(user));
-  }, [userId]);
+      .then(user => setUser(user))
+      .catch(error => console.error(error));
+    
+    if (offerUpdated || offerDeleted) {
+      setOfferUpdated(false);
+      setOfferDeleted(false);
+    }
+  }, [userId, offerUpdated, offerDeleted]);
   
   
 
   function handleOfferUpdated() {
-    setOfferDeleted(true);
+    setOfferUpdated(true);
+    setIsModalOpen(false);
     setEditingOffer(null);
   }
   return (
@@ -104,6 +122,7 @@ function UserProfile() {
           <div className='rightSide'>
           </div>
         </div>
+        <button className="add-offer">Dodaj ofertę</button>
         {data && data.map(offerDto => {
           // console.log(offerDto); 
           return (
@@ -135,21 +154,22 @@ function UserProfile() {
           <p>Ulubieni użytkownicy:</p>
         </div>
         {isModalOpen && (
-          <div className="modal">
-            <div className="modal-content">
-              <EditOffer
-                onClose={() => setIsModalOpen(false)}
-                offerId={editingOffer.id}
-                onEditOffer={handleOfferUpdated}
-                name={editingOffer.name}
-                description={editingOffer.currentDescription}
-                price={editingOffer.currentPrice}
-                address={editingOffer.currentAddress}
-                regularity={editingOffer.currentRegularity}
-              />
-            </div>
+        <div className="modal">
+          <div className="modal-content">
+            <EditOffer
+              onClose={() => setIsModalOpen(false)}
+              offerId={editingOffer.id}
+              onEditOffer={handleOfferUpdated}
+              onUpdateOffer={handleUpdateOfferInData}
+              name={editingOffer.name}
+              description={editingOffer.currentDescription}
+              price={editingOffer.currentPrice}
+              address={editingOffer.currentAddress}
+              regularity={editingOffer.currentRegularity}
+            />
           </div>
-        )}
+        </div>
+      )}
         {/* {editingOffer && (
           <EditOffer
             offerId={editingOffer.id}

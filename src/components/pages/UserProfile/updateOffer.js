@@ -32,7 +32,7 @@ export const updateOffer = async (offerId, dto) => {
   
       
       if (response.status === 200) {
-        alert('Offer updated successfully');
+        alert('Oferta została zauktualizowana!');
         return { success: true, offer: response.data.offer };
       } else {
         alert(response.data.message);
@@ -44,7 +44,7 @@ export const updateOffer = async (offerId, dto) => {
       console.error(error);
       return {
         success: false,
-        message: 'An error occurred while updating the offer'
+        message: 'Podczas aktualizowania oferty wystapił błąd.'
       };
     }
   };
